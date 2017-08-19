@@ -1,0 +1,20 @@
+{
+  "name": "vue-admin-pfpfpf",
+  "version": "1.0.0",
+  "description": "Hi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd server && npm run dev & pwd && cd ../client && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonyrock/vue-admin-pfpfpf.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonyrock/vue-admin-pfpfpf/issues"
+  },
+  "homepage": "https://github.com/jonyrock/vue-admin-pfpfpf#readme"
+}
