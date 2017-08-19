@@ -1,13 +1,13 @@
 import * as types from '../../mutation-types'
 import dashboard from './dashboard'
 import auth from './auth'
-import tables from './tables'
+import users from './users'
 
 const state = {
   items: [
     dashboard,
     auth,
-    tables
+    users
   ]
 }
 
