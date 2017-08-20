@@ -1,12 +1,11 @@
 import * as types from '../../mutation-types'
 import dashboard from './dashboard'
-import auth from './auth'
 import users from './users'
+
 
 const state = {
   items: [
     dashboard,
-    auth,
     users
   ]
 }
@@ -26,6 +25,7 @@ const actions = {
     commit(types.TOGGLE_EXPAND_MENU_ITEM, payload)
   }
 }
+
 
 export default {
   state,

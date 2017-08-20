@@ -6,9 +6,6 @@ const state = {
     withoutAnimation: false
   },
   config: {
-    googleMaps: {
-      apiKey: 'AIzaSyBNAqPrTQoz9P4NBlDDyfxrnKiafkaL8iQ'
-    },
     windowMatchSizeLg: '(min-width: 992px)',
     palette: {
       primary: '#4ae387',
@@ -38,13 +35,13 @@ const mutations = {
   [types.TOGGLE_WITHOUT_ANIMATION] (state, value) {
     state.sidebar.withoutAnimation = value
   },
-  setLoading (state, isLoading) {
+  setLoading(state, isLoading) {
     state.isLoading = isLoading
   }
 }
 
 const actions = {
-  toggleSidebar ({ commit }, opened) {
+  toggleSidebar({ commit }, opened) {
     commit(types.TOGGLE_SIDEBAR, opened)
   },
   toggleDropdown ({ commit }) {

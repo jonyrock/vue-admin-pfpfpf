@@ -1,5 +1,6 @@
 import lazyLoading from './lazyLoading.js'
 
+
 export default {
   name: 'users',
   meta: {

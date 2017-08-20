@@ -12,7 +12,7 @@ export default new Router({
   ]
 })
 
-function generateRoutesFromMenu (menu = [], routes = []) {
+function generateRoutesFromMenu(menu = [], routes = []) {
   for (let i = 0, l = menu.length; i < l; i++) {
     let item = menu[i]
     if (item.path) {
@@ -25,7 +25,7 @@ function generateRoutesFromMenu (menu = [], routes = []) {
   return routes
 }
 
-function getDefaultRoute (menu = []) {
+function getDefaultRoute(menu = []) {
   let defaultRoute
 
   menu.forEach((item) => {

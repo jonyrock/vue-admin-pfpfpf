@@ -6,13 +6,13 @@
           <div class="table-responsive">
             <table class="table table-striped first-td-padding">
               <thead>
-              <tr>
-                <td>Name</td>
-                <td>Email</td>
-                <td>City</td>
-                <td align="right">Score</td>
-                <td></td>
-              </tr>
+                <tr>
+                  <td>Name</td>
+                  <td>Email</td>
+                  <td>City</td>
+                  <td align="right">Score</td>
+                  <td></td>
+                </tr>
               </thead>
               <tbody>
               <tr>
@@ -97,41 +97,7 @@
     name: 'Table',
     data () {
       return {
-        apiUrl: 'https://vuetable.ratiw.net/api/users',
-        tableFields: [
-          {
-            name: '__component:badge-column',
-            title: '',
-            dataClass: 'text-center'
-          },
-          {
-            name: 'name',
-            sortField: 'name'
-          },
-          {
-            name: 'email',
-            sortField: 'email'
-          },
-          {
-            name: 'address.line2',
-            title: 'city'
-          },
-          {
-            name: 'salary',
-            title: 'score'
-          }
-        ],
-        itemsPerPage: [
-          {
-            value: 5
-          },
-          {
-            value: 6
-          },
-          {
-            value: 10
-          }
-        ]
+        apiUrl: 'https://vuetable.ratiw.net/api/users'
       }
     }
   }
