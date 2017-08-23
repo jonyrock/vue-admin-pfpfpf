@@ -24,31 +24,31 @@ const state = {
 }
 
 const mutations = {
-  [types.TOGGLE_SIDEBAR] (state, opened) {
-    state.sidebar.opened = opened
+  [types.TOGGLE_SIDEBAR](state, opened) {
+    state.sidebar.opened = opened;
   },
-  [types.TOGGLE_DROPDOWN] (state) {
+  [types.TOGGLE_DROPDOWN](state) {
     if (document.documentElement.clientWidth < 992) {
-      state.sidebar.opened = false
+      state.sidebar.opened = false;
     }
   },
-  [types.TOGGLE_WITHOUT_ANIMATION] (state, value) {
-    state.sidebar.withoutAnimation = value
+  [types.TOGGLE_WITHOUT_ANIMATION](state, value) {
+    state.sidebar.withoutAnimation = value;
   },
   setLoading(state, isLoading) {
-    state.isLoading = isLoading
+    state.isLoading = isLoading;
   }
 }
 
 const actions = {
   toggleSidebar({ commit }, opened) {
-    commit(types.TOGGLE_SIDEBAR, opened)
+    commit(types.TOGGLE_SIDEBAR, opened);
   },
-  toggleDropdown ({ commit }) {
-    commit(types.TOGGLE_DROPDOWN)
+  toggleDropdown({ commit }) {
+    commit(types.TOGGLE_DROPDOWN);
   },
-  isToggleWithoutAnimation ({ commit }, value) {
-    commit(types.TOGGLE_WITHOUT_ANIMATION, value)
+  isToggleWithoutAnimation({ commit }, value) {
+    commit(types.TOGGLE_WITHOUT_ANIMATION, value);
   }
 }
 

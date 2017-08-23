@@ -4,73 +4,25 @@
       <div class="col-xs-12 col-md-12">
         <widget headerText="Basic Table">
           <div class="table-responsive">
-            <table class="table table-striped first-td-padding">
+            <table class="table table-striped first-td-padding users-table">
               <thead>
                 <tr>
                   <td>Name</td>
                   <td>Email</td>
-                  <td>City</td>
-                  <td align="right">Score</td>
                   <td></td>
                 </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>Matthew McCormick</td>
-                <td>matthew30@mail.ol</td>
-                <td>Vancouver</td>
-                <td align="right">93</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Nancy Bo</td>
-                <td>nancy@boonweb.com</td>
-                <td>Washington</td>
-                <td align="right">280</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Frederiko Lopez</td>
-                <td>fr.lopez@webmail.sp</td>
-                <td>Barcelona</td>
-                <td align="right">16</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Stanley Hummer</td>
-                <td>mr_winner_2999@gmail.cb</td>
-                <td>Manchester</td>
-                <td align="right">57</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Lendley Wintz</td>
-                <td>9938198146@mailster.io</td>
-                <td>Wien</td>
-                <td align="right">113</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Barbara Noz</td>
-                <td>barbaranoz@mailster.io</td>
-                <td>Brussels</td>
-                <td align="right">68</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Matthew McCormick</td>
-                <td>matthew30@mail.ol</td>
-                <td>Vancouver</td>
-                <td align="right">93</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Nancy Bo</td>
-                <td>nancy@boonweb.com</td>
-                <td>Washington</td>
-                <td align="right">280</td>
-                <td></td>
-              </tr>
+                <template v-for="user in users">
+                  <userRow 
+                    :user="user" 
+                    :isEdit="editId === user.id"
+                    v-on:remove="onRemove"
+                    v-on:edit="onEdit"
+                    v-on:saveEdit="onSaveEdit"
+                    v-on:unedit="onUnedit"
+                  />
+                </template>
               </tbody>
             </table>
           </div>
@@ -83,23 +35,51 @@
 
 <script>
   import Widget from '../vuestic-components/vuestic-widget/VuesticWidget'
-  import DataTable from '../vuestic-components/vuestic-datatable/VuesticDataTable'
-  import BadgeColumn from './BadgeColumn.vue'
-  import Vue from 'vue'
-
-  Vue.component('badge-column', BadgeColumn)
-
+  import UserRow from './UserRow';
+  
+  import * as Users from '../../services/users';
+  
+  import _ from 'lodash';
+  
   export default {
     components: {
-      DataTable,
-      Widget
+      Widget,
+      UserRow
     },
-    name: 'Table',
-    data () {
+    name: 'Users',
+    data() {
       return {
-        apiUrl: 'https://vuetable.ratiw.net/api/users'
+        users: undefined,
+        editId: undefined
       }
-    }
+    },
+    methods: {
+      onRemove(id) {
+        Users
+          .remove(id)
+          .then(r => {
+            var index = _.findIndex(this.users, u => u.id == id);
+            this.users.splice(index, 1);
+          });
+      },
+      onEdit(id) {
+        
+      },
+      onUnedit(id) {
+        
+      },
+      onSaveEdit(id) {
+        
+      }
+    },
+    created() {
+      Users
+        .getList()
+        .then(res => {
+          this.users = res;
+        });
+    },
+    
   }
 </script>
 
@@ -108,6 +88,17 @@
   .color-icon-label-table {
     td:first-child {
       width: 1rem;
+    }
+  }
+  
+  .users-table {
+    .btn-micro {
+      span {
+        font-size: 12px;
+      }
+      width: 10px;
+      padding-left: 10px;
+      padding-right: 20px;
     }
   }
 </style>

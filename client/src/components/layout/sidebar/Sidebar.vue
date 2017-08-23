@@ -64,7 +64,7 @@
     },
 
     watch: {
-      $route (route) {
+      $route(route) {
         let parent = _findMatchingParentMenuItem.call(this, route.name) || {}
         this.menuItems.forEach((item) => {
           this.expand({
@@ -75,14 +75,14 @@
       }
     },
 
-    data () {
+    data() {
       return {
         show: false
       }
     }
   }
 
-  function _findMatchingParentMenuItem (itemName) {
+  function _findMatchingParentMenuItem(itemName) {
     let parentItem
 
     this.menuItems.forEach((item) => {
