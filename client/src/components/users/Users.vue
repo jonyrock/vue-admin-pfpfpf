@@ -15,7 +15,7 @@
               <tbody>
                 <template v-for="user in users">
                   <userRow 
-                    :user="user" 
+                    :user="editId === user.id ? userEditCopy : user" 
                     :isEdit="editId === user.id"
                     v-on:remove="onRemove"
                     v-on:edit="onEdit"
@@ -50,7 +50,8 @@
     data() {
       return {
         users: undefined,
-        editId: undefined
+        editId: undefined,
+        userEditCopy: undefined
       }
     },
     methods: {
@@ -58,18 +59,35 @@
         Users
           .remove(id)
           .then(r => {
-            var index = _.findIndex(this.users, u => u.id == id);
+            var { index } = this.userById(id);
             this.users.splice(index, 1);
           });
       },
       onEdit(id) {
-        console.log('on edit!');
+        var { user } = this.userById(id);
+        this.userEditCopy = _.clone(user);
+        this.editId = id;
       },
       onUnedit(id) {
-        
+        this.editId = undefined;
+        this.userEditCopy = undefined;
       },
       onSaveEdit(id) {
-        
+        Users
+          .update(id, this.userEditCopy)
+          .then(r => {
+            var { index, user } = this.userById(id);
+            this.users[index] = this.userEditCopy;
+            this.userEditCopy = undefined;
+            this.editId = undefined;
+          });
+      },
+      userById(id) {
+        var index = _.findIndex(this.users, u => u.id == id);
+        return {
+          index: index,
+          user: this.users[index]
+        }
       }
     },
     created() {

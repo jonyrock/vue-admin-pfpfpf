@@ -3,14 +3,14 @@
     <td>{{ user.name }}</td>
     <td>{{ user.email }}</td>
     <td>
+      <button class="btn btn-primary btn-micro" v-on:click="edit(user.id)">
+        <div class="icon">
+          <span aria-hidden="true" class="fa fa-edit"></span>
+        </div>
+      </button>
       <button class="btn btn-primary btn-micro" v-on:click="remove(user.id)">
         <div class="icon">
           <span aria-hidden="true" class="fa fa-remove"></span>
-        </div>
-      </button>
-      <button class="btn btn-primary btn-micro" v-on:click="update(user.id)">
-        <div class="icon">
-          <span aria-hidden="true" class="fa fa-edit"></span>
         </div>
       </button>
     </td>
@@ -19,14 +19,14 @@
     <td> <input type="text" v-model="user.name" /> </td>
     <td> <input type="text" v-model="user.email" /> </td>
     <td>
-      <button class="btn btn-primary btn-micro" v-on:click="remove(user.id)">
+      <button class="btn btn-primary btn-micro" v-on:click="saveEdit(user.id)">
         <div class="icon">
-          <span aria-hidden="true" class="fa fa-ok"></span>
+          <span aria-hidden="true" class="fa fa-check"></span>
         </div>
       </button>
       <button class="btn btn-primary btn-micro" v-on:click="unedit(user.id)">
         <div class="icon">
-          <span aria-hidden="true" class="fa fa-cancel"></span>
+          <span aria-hidden="true" class="fa fa-ban"></span>
         </div>
       </button>
     </td>
@@ -49,8 +49,8 @@
       remove(id) {
         this.$emit('remove', id)
       },
-      saveEdit(id) {
-        this.$emit('saveEdit', id);
+      saveEdit(id, user) {
+        this.$emit('saveEdit', id, user);
       },
       edit(id) {
         this.$emit('edit', id);
