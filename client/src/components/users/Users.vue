@@ -63,7 +63,7 @@
           });
       },
       onEdit(id) {
-        
+        console.log('on edit!');
       },
       onUnedit(id) {
         
