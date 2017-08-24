@@ -2,11 +2,12 @@
   <div>
     <div class="row">
       <div class="col-xs-12 col-md-12">
-        <widget headerText="Basic Table">
+        <widget headerText="Users">
           <div class="table-responsive">
             <table class="table table-striped first-td-padding users-table">
               <thead>
                 <tr>
+                  <td>id</td>
                   <td>Name</td>
                   <td>Email</td>
                   <td></td>
@@ -87,7 +88,7 @@
         return {
           index: index,
           user: this.users[index]
-        }
+        };
       }
     },
     created() {
