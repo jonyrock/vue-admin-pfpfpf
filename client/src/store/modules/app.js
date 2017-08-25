@@ -7,6 +7,9 @@ const state = {
   },
   config: {
     windowMatchSizeLg: '(min-width: 992px)',
+    server: {
+      rootUri: 'http://localhost:3000/'
+    },
     palette: {
       primary: '#4ae387',
       danger: '#e34a4a',
