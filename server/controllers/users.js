@@ -1,4 +1,4 @@
-const User = require('./../models/users');
+const User = require('../models/users');
 const express = require('express');
 
 
@@ -9,7 +9,19 @@ router.get('/', function(req, res){
 });
 
 router.get('/list', function(req, res) {  
-  res.send(JSON.stringify(User.getList()));
+  User
+    .getList()
+    .then(r => res.json(r));
+});
+
+router.delete('/:id', function(req, res) {
+  console.log('i will delete ' + req.param.id);
+  res.send('ok');
+});
+
+router.put('/:id', function(req, res) {
+  console.log('i will update ' + req.param.id);
+  res.send('ok');
 });
 
 module.exports.router = router;

@@ -5,12 +5,15 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon ./app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.4",
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "monk": "^6.0.3",
+    "rsvp": "^4.0.1"
   }
 }
