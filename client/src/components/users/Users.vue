@@ -15,7 +15,7 @@
               </thead>
               <tbody>
                 <template v-for="user in users">
-                  <userRow 
+                  <userRow
                     :user="editId === user.id ? userEditCopy : user" 
                     :isEdit="editId === user.id"
                     v-on:remove="onRemove"
@@ -102,6 +102,7 @@
               user.id = res.id;
               this.userEditCopy = undefined;
               this.editId = undefined;
+              this.createRow = false;
             });
         } else {
           Users

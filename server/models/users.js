@@ -2,6 +2,7 @@ const DB = require('../services/db');
 const _ = require('lodash');
 
 const DB_NAME = 'usercollection';
+const PUBLIC_FIELDS = ['name', 'email'];
 
 function getCollection() {
   return DB
@@ -22,6 +23,14 @@ function np(fun) {
   
 }
 
+function clearPublicFields(user) {
+  for(var key in user) {
+    if(!~PUBLIC_FIELDS.indexOf(key)) {
+      delete user[key];
+    }
+  }
+}
+
 function getList() {
   return np(function(db, c, resolve, reject) {
     c.find().toArray(function(err, result) {
@@ -35,6 +44,7 @@ function getList() {
 }
 
 function create(user) {
+  clearPublicFields(user);
   return getList()
     .then(list => _.maxBy(list, 'id').id + 1)
     .then(newId => np(function(db, c, resolve, reject) {
@@ -64,13 +74,15 @@ function remove(id) {
   });
 }
 
-function update(user) {
+function update(id, user) {
+  clearPublicFields(user);
   // TODO: check fields to update
   return np(function(db, c, resolve, reject) {
     c.updateOne(
-      { id: user.id }, 
+      { id: id }, 
       { $set: user, $currentDate: { "lastModified": true } }, 
       function(err, result) {
+        
         db.close();
         if(err) {
           return reject(err);
