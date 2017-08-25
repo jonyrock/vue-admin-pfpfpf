@@ -99,7 +99,8 @@
             .create(id, this.userEditCopy)
             .then(res => {
               var { index, user } = this.userById(id);
-              user.id = res.id;
+              this.users[index] = this.userEditCopy;
+              this.users[index].id = res.id;
               this.userEditCopy = undefined;
               this.editId = undefined;
               this.createRow = false;
