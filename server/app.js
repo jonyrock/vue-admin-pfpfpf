@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser')
 
 const app = express();
 
@@ -9,22 +10,20 @@ const PORT = IS_PRODUCTION ? 3011 : 3000;
 
 const USERS = require('./controllers/users');
 
+app.use(bodyParser.json());
+
 if(!IS_PRODUCTION) {
   app.use(function(req, res, next) {
-    console.log('hhhe');
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    res.header('Access-Control-Allow-Credentials', true);
     next();
   });
 }
 
 app.use('/static', express.static(path.join(CLIENT_DIR, 'static')));
 app.use('/users', USERS.router);
-
-
-
 
 app.get('/', (req, res) => {
   if (IS_PRODUCTION) {

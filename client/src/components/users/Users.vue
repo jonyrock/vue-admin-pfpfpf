@@ -27,6 +27,15 @@
               </tbody>
             </table>
           </div>
+          <div class="text-center">
+            <button
+              class="btn btn-primary btn-sm" 
+              v-on:click="addNew()"
+              :disabled="createRow"
+            >
+              ADD USER
+            </button>
+          </div>
         </widget>
       </div>
     </div>
@@ -42,6 +51,9 @@
   
   import _ from 'lodash';
   
+  const CREATE_ID = '-';
+  
+  
   export default {
     components: {
       Widget,
@@ -52,7 +64,8 @@
       return {
         users: undefined,
         editId: undefined,
-        userEditCopy: undefined
+        userEditCopy: undefined,
+        createRow: false
       }
     },
     methods: {
@@ -65,23 +78,49 @@
           });
       },
       onEdit(id) {
+        if(id === CREATE_ID) {
+          this.createRow = true;
+        }
         var { user } = this.userById(id);
         this.userEditCopy = _.clone(user);
         this.editId = id;
       },
       onUnedit(id) {
+        if(id === CREATE_ID) {
+          this.createRow = false;
+          this.users.pop();
+        }
         this.editId = undefined;
         this.userEditCopy = undefined;
       },
       onSaveEdit(id) {
-        Users
-          .update(id, this.userEditCopy)
-          .then(r => {
-            var { index, user } = this.userById(id);
-            this.users[index] = this.userEditCopy;
-            this.userEditCopy = undefined;
-            this.editId = undefined;
-          });
+        if(id === CREATE_ID) {
+          Users
+            .create(id, this.userEditCopy)
+            .then(res => {
+              var { index, user } = this.userById(id);
+              user.id = res.id;
+              this.userEditCopy = undefined;
+              this.editId = undefined;
+            });
+        } else {
+          Users
+            .update(id, this.userEditCopy)
+            .then(r => {
+              var { index, user } = this.userById(id);
+              this.users[index] = this.userEditCopy;
+              this.userEditCopy = undefined;
+              this.editId = undefined;
+            });
+        }
+      },
+      addNew() {
+        this.users.push({
+          id: CREATE_ID,
+          name: 'Some User',
+          email: 'some@email.com',
+        });
+        this.onEdit(CREATE_ID);
       },
       userById(id) {
         var index = _.findIndex(this.users, u => u.id == id);

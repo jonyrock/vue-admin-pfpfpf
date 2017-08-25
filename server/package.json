@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
     "monk": "^6.0.3",
     "rsvp": "^4.0.1"

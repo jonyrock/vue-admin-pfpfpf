@@ -11,15 +11,21 @@ export function getList() {
     .then(res => res.data);
 }
 
+export function create(id, user) {
+  return axios
+    .post(URI + '/create', user)
+    .then(res => res.data);
+}
+
 export function update(id, user) {
   return axios
-    .put(URI + '/${id}', user)
+    .put(URI + `/${id}`, user)
     .then(res => res.data);
 }
 
 export function remove(id) {
   return axios
-    .delete(URI + '/${id}')
+    .delete(URI + `/${id}`)
     .then(res => res.data);
 }
 

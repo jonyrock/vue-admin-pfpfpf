@@ -1,4 +1,5 @@
-var DB = require('../services/db');
+const DB = require('../services/db');
+const _ = require('lodash');
 
 const DB_NAME = 'usercollection';
 
@@ -15,21 +16,74 @@ function getCollection() {
     })
 }
 
-function getList() {
+function np(fun) {
   return getCollection()
-    .then(({ db, c }) => {
-      return new Promise(function(resolve, reject) {
-        c.find().toArray(function(err, result) {
-          if (err) {
-            return reject(err);
-          }
-          db.close();
-          resolve(result);
-        });
-      })
-    })
+    .then(({ db, c }) => new Promise(fun.bind(null, db, c)));
+  
 }
 
+function getList() {
+  return np(function(db, c, resolve, reject) {
+    c.find().toArray(function(err, result) {
+      db.close();
+      if (err) {
+        return reject(err);
+      }
+      resolve(result);
+    });
+  });
+}
+
+function create(user) {
+  return getList()
+    .then(list => _.maxBy(list, 'id').id + 1)
+    .then(newId => np(function(db, c, resolve, reject) {
+      user.id = newId;
+      c.insertOne(user, function(err, result) {
+        db.close();
+        if(err) {
+          return reject(err);
+        }
+        result.result.id = newId;
+        resolve(result);
+      });
+    }))
+  // TODO: check fields to create
+  
+}
+
+function remove(id) {
+  return np(function(db, c, resolve, reject) {
+    c.deleteOne({ id: id }, function(err, result) {
+      db.close();
+      if(err) {
+        return reject(err);
+      }
+      resolve(result);
+    });
+  });
+}
+
+function update(user) {
+  // TODO: check fields to update
+  return np(function(db, c, resolve, reject) {
+    c.updateOne(
+      { id: user.id }, 
+      { $set: user, $currentDate: { "lastModified": true } }, 
+      function(err, result) {
+        db.close();
+        if(err) {
+          return reject(err);
+        }
+        resolve(result);
+      });
+  });
+}
+
+
 module.exports = {
-  getList
+  getList,
+  create,
+  update,
+  remove
 }
