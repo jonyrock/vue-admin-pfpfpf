@@ -3,10 +3,10 @@ import store from 'vuex-store'
 
 
 const ROOT_URI = 'http://localhost:3000';
-const URI = ROOT_URI + '/users';
+const URI = ROOT_URI + '/auth';
 
 
-export function getList() {
+export function login() {
   return axios
     .get(URI + '/list')
     .then(res => res.data);

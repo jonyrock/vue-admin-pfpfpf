@@ -1,8 +1,11 @@
 const DB = require('../services/db');
 const _ = require('lodash');
 
+
 const DB_NAME = 'usercollection';
-const PUBLIC_FIELDS = ['name', 'email'];
+const PUBLIC_FIELDS = ['id', 'name', 'email', 'username'];
+const UPDATE_FIELDS = ['name', 'email', 'username'];
+
 
 function getCollection() {
   return DB
@@ -23,9 +26,9 @@ function np(fun) {
   
 }
 
-function clearPublicFields(user) {
+function clearFields(fields, user) {
   for(var key in user) {
-    if(!~PUBLIC_FIELDS.indexOf(key)) {
+    if(!~fields.indexOf(key)) {
       delete user[key];
     }
   }
@@ -34,6 +37,7 @@ function clearPublicFields(user) {
 function getList() {
   return np(function(db, c, resolve, reject) {
     c.find().toArray(function(err, result) {
+      _.each(result, clearFields.bind(null, PUBLIC_FIELDS));
       db.close();
       if (err) {
         return reject(err);
@@ -43,8 +47,40 @@ function getList() {
   });
 }
 
+function userById(id) {
+  return new Promise(function(resolve, reject) {
+    if(isNaN(+id)) {
+      reject('Bad id');
+      return;
+    }
+    resolve();
+  })
+  .then(() => np(function(db, c, resolve, reject) {
+    c.findOne({ id: id }, (err, res) => {
+      if(err) {
+        reject(err);
+        return;
+      }
+      resolve(res);
+    });
+  }))
+}
+
+function userByUsername(username) {
+  return np(function(db, c, resolve, reject) {
+    c.findOne({ username: username }, (err, res) => {
+      db.close();
+      if(err) {
+        reject(err);
+        return;
+      }
+      resolve(res);
+    });
+  });
+}
+
 function create(user) {
-  clearPublicFields(user);
+  clearFields(UPDATE_FIELDS, user);
   return getList()
     .then(list => _.maxBy(list, 'id').id + 1)
     .then(newId => np(function(db, c, resolve, reject) {
@@ -75,7 +111,8 @@ function remove(id) {
 }
 
 function update(id, user) {
-  clearPublicFields(user);
+  clearFields(UPDATE_FIELDS, user);
+  
   // TODO: check fields to update
   return np(function(db, c, resolve, reject) {
     c.updateOne(

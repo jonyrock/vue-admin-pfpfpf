@@ -7,10 +7,11 @@
             <table class="table table-striped first-td-padding users-table">
               <thead>
                 <tr>
-                  <td>id</td>
-                  <td>Name</td>
-                  <td>Email</td>
-                  <td></td>
+                  <td style="width:10%">id</td>
+                  <td style="width:25%">Name</td>
+                  <td style="width:25%">Username</td>
+                  <td style="width:25%">Email</td>
+                  <td style="width:12%"></td>
                 </tr>
               </thead>
               <tbody>
@@ -120,6 +121,7 @@
         this.users.push({
           id: CREATE_ID,
           name: 'Some User',
+          username: 'someuser',
           email: 'some@email.com',
         });
         this.onEdit(CREATE_ID);

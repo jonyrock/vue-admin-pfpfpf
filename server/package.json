@@ -11,11 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "express-session": "^1.15.5",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
     "monk": "^6.0.3",
+    "randomstring": "^1.1.5",
+    "require": "^2.4.20",
     "rsvp": "^4.0.1"
   }
 }

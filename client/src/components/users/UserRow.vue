@@ -1,8 +1,9 @@
 <template>
   <tr v-if="!isEdit">
-    <td style="width:7%">{{ user.id }}</td>
-    <td style="width:40%">{{ user.name }}</td>
-    <td style="width:40%">{{ user.email }}</td>
+    <td>{{ user.id }}</td>
+    <td>{{ user.name }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.email }}</td>
     <td>
       <button class="btn btn-primary btn-micro" v-on:click="edit(user.id)">
         <div class="icon">
@@ -19,6 +20,7 @@
   <tr v-else>
     <td> {{ user.id }} </td>
     <td> <input type="text" v-model="user.name" /> </td>
+    <td> <input type="text" v-model="user.username" /> </td>
     <td> <input type="text" v-model="user.email" /> </td>
     <td>
       <button class="btn btn-primary btn-micro" v-on:click="saveEdit(user.id)">
