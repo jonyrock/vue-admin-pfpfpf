@@ -40,7 +40,7 @@ app.use('/users', UsersCtrl.router);
 
 app.get('/', (req, res) => {
   if (IS_PRODUCTION) {
-    res.sendFile(path.join(CLIENT_DIR, 'index.html'))
+    res.sendFile(path.join(CLIENT_DIR, 'index.html'));
   } else {
     res.redirect('http://localhost:8080');
   }

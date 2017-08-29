@@ -3,5 +3,4 @@ export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN';
 export const TOGGLE_WITHOUT_ANIMATION = 'TOGGLE_WITHOUT_ANIMATION';
 
-export const REMOVE_USER = 'REMOVE_USER';
-export const ADD_USER = 'ADD_USER';
+export const SET_AUTH = 'SET_AUTH';

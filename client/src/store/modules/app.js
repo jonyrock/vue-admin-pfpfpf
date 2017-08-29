@@ -2,7 +2,7 @@ import * as types from '../mutation-types'
 
 const state = {
   sidebar: {
-    opened: false,
+    opened: true,
     withoutAnimation: false
   },
   config: {
@@ -52,6 +52,9 @@ const actions = {
   },
   isToggleWithoutAnimation({ commit }, value) {
     commit(types.TOGGLE_WITHOUT_ANIMATION, value);
+  },
+  sayHi() {
+    console.log('hi');
   }
 }
 

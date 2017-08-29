@@ -1,9 +1,9 @@
-
 const Users = require('../models/users');
 const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
 
-var loginSessions = {};
+const tokens = {};
+const TOKEN_SESSION_KEY = TOKEN_SESSION_KEY;
 
 
 function login(req, res) {
@@ -24,30 +24,28 @@ function login(req, res) {
       return Promise.reject('Wrong password');
     }
     var sid = randomstring.generate();
-    req.session['loginId'] = sid;
-    loginSessions[sid] = {
-      user: user
-    };
+    req.session[TOKEN_SESSION_KEY] = sid;
+    tokens[sid] = { user: user };
   });
 }
 
 function logout(req, res) {
-  var loginId = req.session['loginId'];
-  delete req.session['loginId'];
+  var loginId = req.session[TOKEN_SESSION_KEY];
+  delete req.session[TOKEN_SESSION_KEY];
   req.user = undefined;
-  if(loginSessions[loginId]) {
-    delete loginSessions[loginId];
+  if(tokens[loginId]) {
+    delete tokens[loginId];
   }
 }
 
 function sessionMiddleware(req, res, next) {
-  var loginId = req.session['loginId'];
-  if(!loginSessions[loginId]) {
+  var loginId = req.session[TOKEN_SESSION_KEY];
+  if(!tokens[loginId]) {
     req.user = undefined;
     next();
     return;
   } else {
-    req.user = loginSessions[loginId].user;
+    req.user = tokens[loginId].user;
   }
 }
 
@@ -59,7 +57,6 @@ function requireLogin(req, res, next) {
     next();
   }
 }
-
 
 
 module.exports = {
