@@ -11,11 +11,8 @@
   import Layout from 'components/layout/Layout'
   import Login from 'components/auth/login/Login'
 
-  import StaticPreloader from 'components/ui/StaticPreloader';
-  
-  import authStore from 'vuex-store/modules/auth'
-  import store from 'vuex-store';
-  
+  import StaticPreloader from 'components/ui/StaticPreloader'
+  import AuthStore from 'vuex-store/modules/auth'
 
   export default {
     name: 'app',
@@ -26,12 +23,11 @@
     },
     computed: {
       isAuth() {
-        return authStore.state.isAuth;
+        return AuthStore.state.isAuth;
       }
     },
     mounted() {
-      console.log('hey mounted');
-      store.dispatch('sayHi');
+      this.$store.dispatch('checkLogin');
     }
   }
 </script>

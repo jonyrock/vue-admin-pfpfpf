@@ -23,7 +23,6 @@ function getCollection() {
 function np(fun) {
   return getCollection()
     .then(({ db, c }) => new Promise(fun.bind(null, db, c)));
-  
 }
 
 function clearFields(fields, user) {
@@ -80,7 +79,7 @@ function userByUsername(username) {
 }
 
 function create(user) {
-  clearFields(UPDATE_FIELDS, user);
+  // TODO: validate fields
   return getList()
     .then(list => _.maxBy(list, 'id').id + 1)
     .then(newId => np(function(db, c, resolve, reject) {
@@ -93,9 +92,8 @@ function create(user) {
         result.result.id = newId;
         resolve(result);
       });
-    }))
-  // TODO: check fields to create
-  
+    }));
+
 }
 
 function remove(id) {

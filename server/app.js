@@ -4,13 +4,14 @@ const bodyParser = require('body-parser')
 const session = require('express-session');
 
 const UsersCtrl = require('./controllers/users');
-const Auth = require('./services/auth');
+const AuthCtrl = require('./controllers/auth');
 
+const AuthService = require('./services/auth');
 
-const CLIENT_DIR = path.join(__dirname, '../client/dist');
 const IS_PRODUCTION = process.env.NODE_ENV == 'production';
 const PORT = IS_PRODUCTION ? 3011 : 3000;
 
+const CLIENT_DIR = path.join(__dirname, '../client/dist');
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(session({
   cookie: { maxAge: 10 * 365 * 24 * 60 * 60 * 1000 }
 }));
 
-app.use(Auth.sessionMiddleware);
+app.use(AuthService.sessionMiddleware);
 
 if(!IS_PRODUCTION) {
   app.use(function(req, res, next) {
@@ -37,6 +38,7 @@ if(!IS_PRODUCTION) {
 
 app.use('/static', express.static(path.join(CLIENT_DIR, 'static')));
 app.use('/users', UsersCtrl.router);
+app.use('/auth', AuthCtrl.router);
 
 app.get('/', (req, res) => {
   if (IS_PRODUCTION) {

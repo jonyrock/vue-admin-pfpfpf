@@ -1,21 +1,31 @@
 import * as types from '../../mutation-types'
 
+import axios from 'axios';
+
+
+const ROOT_URI = 'http://localhost:3000';
+const URI = ROOT_URI + '/auth';
+
+
 
 const state = {
-  isAuth: true
+  isAuth: undefined
 }
 
 const mutations = {
-  [types.SET_AUTH](state, payload) {
-    state.isAuth = payload;
+  [types.SET_AUTH](state, isAuth) {
+    state.isAuth = isAuth;
   }
 }
 
 const actions = {
   checkLogin({ commit }) {
-    setInterval(() => {
-      commit(types.SET_AUTH, true)  
-    }, 1000);
+    axios
+      .get(URI + '/check')
+      .then(({ data }) => {
+        console.log(data);
+        commit(types.SET_AUTH, data.result === 'ok');
+      });
   }
 }
 

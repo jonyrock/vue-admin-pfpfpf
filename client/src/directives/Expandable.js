@@ -33,11 +33,11 @@ let directive = {
       }
     }
 
-    for (let i = 0; i < items.length; i++) {
+    for(let i = 0; i < items.length; i++) {
       let item = items[i]
       let domItem = directive.dom.elements[i]
       directive.dom.handlers.push(expandHandler(item))
-      if (item.children) {
+      if(item.children) {
         domItem.addEventListener('transitionend', directive.dom.handlers[i])
       }
     }
