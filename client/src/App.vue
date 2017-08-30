@@ -1,7 +1,9 @@
 <template>
   <div id="app" class="app">
     <static-preloader v-if="isAuth === undefined"/>
-    <login  v-if="isAuth === false"></login>
+    <center-placer v-if="isAuth === false" width="342px" :box="true">
+      <login></login>
+    </center-placer>
     <layout v-if="isAuth === true"></layout>
   </div>
 </template>
@@ -12,17 +14,20 @@
   import Login from 'components/auth/login/Login'
 
   import StaticPreloader from 'components/ui/StaticPreloader'
+  import CenterPlacer from 'components/ui/CenterPlacer'
   import AuthStore from 'vuex-store/modules/auth'
 
   export default {
     name: 'app',
     components: {
       StaticPreloader,
+      CenterPlacer,
       Login,
       Layout
     },
     computed: {
       isAuth() {
+        //return undefined;
         return AuthStore.state.isAuth;
       }
     },

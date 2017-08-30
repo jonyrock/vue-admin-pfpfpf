@@ -23,7 +23,6 @@ const actions = {
     axios
       .get(URI + '/check')
       .then(({ data }) => {
-        console.log(data);
         commit(types.SET_AUTH, data.result === 'ok');
       });
   }
