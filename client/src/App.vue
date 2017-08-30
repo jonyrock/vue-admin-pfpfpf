@@ -9,8 +9,8 @@
         <a href="#" v-on:click="screenName = 'signup'"> Create account </a>
       </div>
     </center-placer>
-    <center-placer v-if="isAuth === 'signup'" width="342px" height="500px" :box="true">
-      <signup></signup>
+    <center-placer v-if="isAuth === 'signup'" width="342px" :box="true">
+      <signup v-on:success="suc"></signup>
       <div class="bottomLink">
         <a href="#" v-on:click="screenName = 'login'"> Login </a>
       </div>
@@ -55,6 +55,11 @@
     },
     mounted() {
       this.$store.dispatch('checkLogin');
+    },
+    methods: {
+      suc() {
+        console.log('suc suc');
+      }
     }
   }
 </script>

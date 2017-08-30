@@ -21,9 +21,9 @@ const mutations = {
 const actions = {
   checkLogin({ commit }) {
     axios
-      .get(URI + '/check')
+      .get(URI + '/checkLogin')
       .then(({ data }) => {
-        commit(types.SET_AUTH, data.result === 'ok');
+        commit(types.SET_AUTH, data.result);
       });
   }
 }

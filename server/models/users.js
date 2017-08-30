@@ -25,6 +25,11 @@ function np(fun) {
     .then(({ db, c }) => new Promise(fun.bind(null, db, c)));
 }
 
+function _normalizeUser(user) {
+  user.username = user.username.toLowerCase();
+  user.email = user.email.toLowerCase();
+}
+
 function clearFields(fields, user) {
   for(var key in user) {
     if(!~fields.indexOf(key)) {
@@ -80,6 +85,7 @@ function userByUsername(username) {
 
 function create(user) {
   // TODO: validate fields
+  _normalizeUser(user);
   return getList()
     .then(list => _.maxBy(list, 'id').id + 1)
     .then(newId => np(function(db, c, resolve, reject) {
@@ -110,6 +116,7 @@ function remove(id) {
 
 function update(id, user) {
   clearFields(UPDATE_FIELDS, user);
+  _normalizeUser(user);
   
   // TODO: check fields to update
   return np(function(db, c, resolve, reject) {
@@ -127,10 +134,38 @@ function update(id, user) {
   });
 }
 
+function emailExists(email) {
+  email = email.toLowerCase();
+  return np(function(db, c, resolve, reject) {
+    c.findOne({ email: email }, (err, res) => {
+      if(err) {
+        reject(err);
+        return;
+      }
+      resolve(res !== null);
+    });
+  })
+}
+
+function usernameExists(username) {
+  username = username.toLowerCase();
+  return np(function(db, c, resolve, reject) {
+    c.findOne({ username: username }, (err, res) => {
+      if(err) {
+        reject(err);
+        return;
+      }
+      resolve(res !== null);
+    });
+  })
+}
+
 
 module.exports = {
   getList,
   create,
   update,
-  remove
+  remove,
+  emailExists,
+  usernameExists
 }
