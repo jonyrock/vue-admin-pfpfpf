@@ -9,13 +9,12 @@
         <a href="#" v-on:click="screenName = 'signup'"> Create account </a>
       </div>
     </center-placer>
-    <center-placer v-if="isAuth === 'signup'" width="342px" :box="true">
+    <center-placer v-if="isAuth === 'signup'" width="342px" height="500px" :box="true">
       <signup></signup>
       <div class="bottomLink">
         <a href="#" v-on:click="screenName = 'login'"> Login </a>
       </div>
     </center-placer>
-    
   </div>
 </template>
 
