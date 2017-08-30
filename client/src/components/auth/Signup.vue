@@ -1,7 +1,7 @@
 <template>
-  <div class="login">
-    <h2>Welcome!</h2>
-    <form method="post" action="/auth/login" name="login">
+  <div class="signup">
+    <h2>Create New Account</h2>
+    <form method="post" action="/auth/signup" name="signup">
       <div class="form-group">
         <div class="input-group">
           <input type="text" id="email" required="required"/>
@@ -14,11 +14,10 @@
           <label class="control-label" for="password">Password</label><i class="bar"></i>
         </div>
       </div>
-      <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
+      <div class="text-center">
         <button class="btn btn-primary" type="submit">
-          Log In
+          Sign Up
         </button>
-        <router-link class='link' :to="{name: 'Signup'}">Create account</router-link>
       </div>
     </form>
   </div>
@@ -26,15 +25,16 @@
 
 <script>
   export default {
-    name: 'login'
+    name: 'signup'
   }
 </script>
 
 <style lang="scss">
-  @import '../../../sass/variables';
-  @import '../../../../node_modules/bootstrap/scss/mixins/breakpoints';
-  @import '../../../../node_modules/bootstrap/scss/variables';
-  .login {
+  @import '../../sass/variables';
+  @import '../../../node_modules/bootstrap/scss/mixins/breakpoints';
+  @import '../../../node_modules/bootstrap/scss/variables';
+
+  .signup {
     @include media-breakpoint-down(md) {
       width: 100%;
       padding-right: 2rem;
@@ -52,7 +52,7 @@
     width: 21.375rem;
 
     .down-container {
-      margin-top: 3.125rem;
+      margin-top: 2.6875rem;
     }
   }
 </style>

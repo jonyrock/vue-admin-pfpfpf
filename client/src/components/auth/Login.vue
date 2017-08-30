@@ -1,7 +1,7 @@
 <template>
-  <div class="signup">
-    <h2>Create New Account</h2>
-    <form method="post" action="/auth/signup" name="signup">
+  <div class="login">
+    <h2>Welcome!</h2>
+    <form method="post" action="/auth/login" name="login">
       <div class="form-group">
         <div class="input-group">
           <input type="text" id="email" required="required"/>
@@ -14,17 +14,10 @@
           <label class="control-label" for="password">Password</label><i class="bar"></i>
         </div>
       </div>
-      <div class="abc-checkbox abc-checkbox-primary">
-        <input id="checkbox1" type="checkbox" checked>
-        <label for="checkbox1">
-          <span class="abc-label-text">I agree to <router-link to="">Terms of Use.</router-link></span>
-        </label>
-      </div>
-      <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
+      <div class="text-center">
         <button class="btn btn-primary" type="submit">
-          Sign Up
+          Log In
         </button>
-        <router-link class='link' :to="{name: 'Login'}">Already joined?</router-link>
       </div>
     </form>
   </div>
@@ -32,16 +25,15 @@
 
 <script>
   export default {
-    name: 'signup'
+    name: 'login'
   }
 </script>
 
 <style lang="scss">
-  @import '../../../sass/variables';
-  @import '../../../../node_modules/bootstrap/scss/mixins/breakpoints';
-  @import '../../../../node_modules/bootstrap/scss/variables';
-
-  .signup {
+  @import '../../sass/variables';
+  @import '../../../node_modules/bootstrap/scss/mixins/breakpoints';
+  @import '../../../node_modules/bootstrap/scss/variables';
+  .login {
     @include media-breakpoint-down(md) {
       width: 100%;
       padding-right: 2rem;
@@ -59,7 +51,7 @@
     width: 21.375rem;
 
     .down-container {
-      margin-top: 2.6875rem;
+      margin-top: 3.125rem;
     }
   }
 </style>
