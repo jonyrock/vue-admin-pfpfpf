@@ -89,6 +89,7 @@ function create(user) {
   return getList()
     .then(list => _.maxBy(list, 'id').id + 1)
     .then(newId => np(function(db, c, resolve, reject) {
+      console.log('got new id ' + newId);
       user.id = newId;
       c.insertOne(user, function(err, result) {
         db.close();

@@ -15,17 +15,22 @@ router.get('/checkLogin', function(req, res) {
   }
 });
 
-router.post('/new', AuthService.requireLogin, function(req, res) {
-  var user = req.body;
-  AuthService
-    .createNewUser(user)
-    .then(r => res.json({ result: 'ok' }));
-});
-
 router.post('/login', function(req, res) {
   AuthService
     .login(req)
     .then(r => res.json(r));
+});
+
+router.post('/createNewUser', function(req, res) {
+  console.log('createNewUser');
+  console.log(req.body);
+  var user = req.body;
+  AuthService
+    .createNewUser(user)
+    .then(user => {
+      console.log('created user')
+      res.json({ result: true });
+    })
 });
 
 router.post('/emailExists', function(req, res) {
@@ -33,7 +38,7 @@ router.post('/emailExists', function(req, res) {
   UserModel
     .emailExists(email)
     .then(exists => {
-      res.json({ result: exists })
+      res.json({ result: exists });
     })
 });
 
@@ -42,7 +47,7 @@ router.post('/usernameExists', function(req, res) {
   UserModel
     .usernameExists(username)
     .then(exists => {
-      res.json({ result: exists })
+      res.json({ result: exists });
     })
 });
 

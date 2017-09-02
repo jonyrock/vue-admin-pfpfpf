@@ -4,8 +4,11 @@ const bcrypt = require('bcryptjs');
 const randomstring = require('randomstring');
 
 
-const tokens = {};
 const TOKEN_SESSION_KEY = 'TOKEN_SESSION_KEY';
+const SALT_ROUNDS = 10;
+
+
+const tokens = {};
 
 
 function login(req, res) {
@@ -45,15 +48,23 @@ function createNewUser(user) {
     if(!user.password) {
       reject('No password');
     }
-    var password = bcrypt.hash(user.password, null, null, (err, res) => {
-      if(err) {
-        reject('Can`t process user password');
-      }
-      resolve(res);
-    });
+    try {
+      bcrypt.hash(user.password, SALT_ROUNDS, (err, res) => {
+        if(err) {
+          reject('Can`t process user password');
+        }
+        console.log('bcrypt res: ');
+        console.log(res);
+        resolve(res);
+      });
+    } catch(err) {
+      reject(err);
+    }
   })
   .then(password => {
+    console.log('update password');
     user.password = password;
+    console.log(user);
     return UserModel.create(user);
   });
 }

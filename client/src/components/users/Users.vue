@@ -95,27 +95,14 @@
         this.userEditCopy = undefined;
       },
       onSaveEdit(id) {
-        if(id === CREATE_ID) {
-          Users
-            .create(id, this.userEditCopy)
-            .then(res => {
-              var { index, user } = this.userById(id);
-              this.users[index] = this.userEditCopy;
-              this.users[index].id = res.id;
-              this.userEditCopy = undefined;
-              this.editId = undefined;
-              this.createRow = false;
-            });
-        } else {
-          Users
-            .update(id, this.userEditCopy)
-            .then(r => {
-              var { index, user } = this.userById(id);
-              this.users[index] = this.userEditCopy;
-              this.userEditCopy = undefined;
-              this.editId = undefined;
-            });
-        }
+        Users
+          .update(id, this.userEditCopy)
+          .then(r => {
+            var { index, user } = this.userById(id);
+            this.users[index] = this.userEditCopy;
+            this.userEditCopy = undefined;
+            this.editId = undefined;
+          });
       },
       addNew() {
         this.users.push({

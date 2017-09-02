@@ -8,18 +8,19 @@ const URI = ROOT_URI + '/auth';
 export function emailExists(email) {
   return axios
     .post(URI + '/emailExists', { email: email })
-    .then(res => {
-      return res.data.result;
-    });
+    .then(res => res.data.result);
 }
-
 
 export function usernameExists(username) {
   return axios
     .post(URI + '/usernameExists', { username: username })
-    .then(({ data }) => {
-      return data.result;
-    });
+    .then(res => res.data.result);
 }
 
+export function createNewUser(user) {
+  return axios
+    .post(URI + '/createNewUser', user)
+    .then(res => res.data)
+    .catch(res => console.log(res));
+}
 

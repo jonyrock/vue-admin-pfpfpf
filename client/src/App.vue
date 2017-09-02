@@ -2,7 +2,6 @@
   <div id="app" class="app">
     <static-preloader v-if="isAuth === undefined"/>
     <layout v-if="isAuth === true"></layout>
-
     <center-placer v-if="isAuth === 'login'" width="342px" :box="true">
       <login></login>
       <div class="bottomLink">
@@ -10,7 +9,7 @@
       </div>
     </center-placer>
     <center-placer v-if="isAuth === 'signup'" width="342px" :box="true">
-      <signup v-on:success="suc"></signup>
+      <signup v-on:success="onSignupSuccess"></signup>
       <div class="bottomLink">
         <a href="#" v-on:click="screenName = 'login'"> Login </a>
       </div>
@@ -57,8 +56,8 @@
       this.$store.dispatch('checkLogin');
     },
     methods: {
-      suc() {
-        console.log('suc suc');
+      onSignupSuccess() {
+        this.screenName = 'login';
       }
     }
   }
