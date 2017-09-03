@@ -1,31 +1,60 @@
 <template>
   <div class="login">
-    <h2>Welcome!</h2>
-    
-    <div class="form-group">
+    <h2>Login</h2>
+    <div :class="{ 'form-group': true, 'has-error': errors.has('username') }">
       <div class="input-group">
-        <input type="text" id="email" required="required"/>
-        <label class="control-label" for="email">Email</label><i class="bar"></i>
+        <input
+          type="text" required="required" name="username"
+          v-model="login.username" v-validate="'required|alpha_spaces'"
+        />
+        <label class="control-label" for="login"> Username </label>
+        <i class="bar"></i>
       </div>
     </div>
-    <div class="form-group">
+    <div :class="{ 'form-group': true, 'has-error': errors.has('password') }">
       <div class="input-group">
-        <input type="password" id="password" required="required"/>
-        <label class="control-label" for="password">Password</label><i class="bar"></i>
+        <input
+          type="password" name="password" required="required"
+          v-model="login.password" v-validate="'required'"
+        />
+        <label class="control-label" for="password"> Password </label>
+        <i class="bar"></i>
       </div>
     </div>
     <div class="text-center">
-      <button class="btn btn-primary" type="submit">
-        Log In
-      </button>
+      <button class="btn btn-primary" type="submit" v-on:click="post"> Log In </button>
     </div>
-    
   </div>
 </template>
 
 <script>
+
+  import { Validator } from 'vee-validate';
+  import * as Auth from 'services/auth';
+
   export default {
-    name: 'login'
+    name: 'login',
+    data: function() {
+      return { login: { } }
+    },
+    methods: {
+      post: function() {
+        Auth
+          .login(this.login)
+          .then(res => {
+            if(res.error !== undefined) {
+              if(this.error === 'ERROR_NO_USERSERNAME') {
+                this.errors.add('username', 'No such username');
+              }
+              if(this.error === 'ERROR_WRONG_PASSWORD') {
+                this.errors.add('username', 'Wrong password');
+              }
+            } else {
+              this.$emit('success');
+            }
+          });
+      }
+    }
   }
 </script>
 

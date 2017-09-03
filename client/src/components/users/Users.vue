@@ -17,7 +17,7 @@
               <tbody>
                 <template v-for="user in users">
                   <userRow
-                    :user="editId === user.id ? userEditCopy : user" 
+                    :user="editId === user.id ? userEditCopy : user"
                     :isEdit="editId === user.id"
                     v-on:remove="onRemove"
                     v-on:edit="onEdit"
@@ -47,14 +47,14 @@
 <script>
   import Widget from '../vuestic-components/vuestic-widget/VuesticWidget'
   import UserRow from './UserRow';
-  
+
   import * as Users from '../../services/users';
-  
+
   import _ from 'lodash';
-  
+
   const CREATE_ID = '-';
-  
-  
+
+
   export default {
     components: {
       Widget,

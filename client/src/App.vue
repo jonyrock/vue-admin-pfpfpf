@@ -3,7 +3,7 @@
     <static-preloader v-if="isAuth === undefined"/>
     <layout v-if="isAuth === true"></layout>
     <center-placer v-if="isAuth === 'login'" width="342px" :box="true">
-      <login></login>
+      <login v-on:success="onLoginSuccess"></login>
       <div class="bottomLink">
         <a href="#" v-on:click="screenName = 'signup'"> Create account </a>
       </div>
@@ -19,13 +19,13 @@
 
 <script>
 
-  import Layout from 'components/layout/Layout'
-  import Login from 'components/auth/Login'
-  import Signup from 'components/auth/Signup'
+  import Layout from 'components/layout/Layout';
+  import Login from 'components/auth/Login';
+  import Signup from 'components/auth/Signup';
 
-  import StaticPreloader from 'components/ui/StaticPreloader'
-  import CenterPlacer from 'components/ui/CenterPlacer'
-  import AuthStore from 'vuex-store/modules/auth'
+  import StaticPreloader from 'components/ui/StaticPreloader';
+  import CenterPlacer from 'components/ui/CenterPlacer';
+  import AuthStore from 'vuex-store/modules/auth';
 
   export default {
     name: 'app',
@@ -58,6 +58,10 @@
     methods: {
       onSignupSuccess() {
         this.screenName = 'login';
+      },
+      onLoginSuccess() {
+        console.log('good login');
+        this.$store.dispatch('checkLogin');
       }
     }
   }

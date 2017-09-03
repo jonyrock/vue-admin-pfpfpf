@@ -6,6 +6,28 @@ const express = require('express');
 
 const router = express.Router();
 
+
+
+const ERROR_MESSAGES = {};
+ERROR_MESSAGES[AuthService.ERROR_BAD_PASSWORD] = 'ERROR_BAD_PASSWORD';
+ERROR_MESSAGES[AuthService.ERROR_BAD_REQUEST] = 'ERROR_BAD_REQUEST';
+ERROR_MESSAGES[AuthService.ERROR_BAD_USERNAME] = 'ERROR_BAD_USERNAME';
+ERROR_MESSAGES[AuthService.ERROR_NO_USERSERNAME] = 'ERROR_NO_USERSERNAME';
+ERROR_MESSAGES[AuthService.ERROR_WRONG_PASSWORD] = 'ERROR_WRONG_PASSWORD';
+
+
+router.post('/login', function(req, res) {
+  AuthService
+    .login(req)
+    .then(r => {
+      res.json({ ok: true });
+    })
+    .catch(err => {
+      res.json({ error: ERROR_MESSAGES[err] })
+    })
+});
+
+
 router.get('/checkLogin', function(req, res) {
   // sessionMiddleware will add user if logged
   if(req.user) {
@@ -15,20 +37,11 @@ router.get('/checkLogin', function(req, res) {
   }
 });
 
-router.post('/login', function(req, res) {
-  AuthService
-    .login(req)
-    .then(r => res.json(r));
-});
-
 router.post('/createNewUser', function(req, res) {
-  console.log('createNewUser');
-  console.log(req.body);
   var user = req.body;
   AuthService
     .createNewUser(user)
     .then(user => {
-      console.log('created user')
       res.json({ result: true });
     })
 });

@@ -7,6 +7,12 @@ const randomstring = require('randomstring');
 const TOKEN_SESSION_KEY = 'TOKEN_SESSION_KEY';
 const SALT_ROUNDS = 10;
 
+const ERROR_BAD_REQUEST = 1;
+const ERROR_BAD_USERNAME = 2;
+const ERROR_BAD_PASSWORD = 3;
+const ERROR_NO_USERSERNAME = 4;
+const ERROR_WRONG_PASSWORD = 5;
+
 
 const tokens = {};
 
@@ -14,24 +20,28 @@ const tokens = {};
 function login(req, res) {
   return new Promise((resolve, reject) => {
     if(!req.body) {
-      reject('No user object in request');
+      reject(ERROR_BAD_REQUEST);
     }
     if(!req.body.username) {
-      reject('No username in request');
+      reject(ERROR_BAD_USERNAME);
     }
     if(!req.body.password) {
-      reject('No password in request');
+      reject(ERROR_BAD_PASSWORD);
     }
-    return UserModel.userByUsername(req.body.username);
+    resolve();
   })
+  .then(() => UserModel.userByUsername(req.body.username))
   .then(user => {
+    if(user === null) {
+      return Promise.reject(ERROR_NO_USERSERNAME);
+    }
     if(!bcrypt.compareSync(req.body.password, user.password)) {
-      return Promise.reject('Wrong password');
+      return Promise.reject(ERROR_WRONG_PASSWORD);
     }
     var sid = randomstring.generate();
     req.session[TOKEN_SESSION_KEY] = sid;
     tokens[sid] = { user: user };
-  });
+  })
 }
 
 function logout(req, res) {
@@ -53,8 +63,6 @@ function createNewUser(user) {
         if(err) {
           reject('Can`t process user password');
         }
-        console.log('bcrypt res: ');
-        console.log(res);
         resolve(res);
       });
     } catch(err) {
@@ -62,9 +70,7 @@ function createNewUser(user) {
     }
   })
   .then(password => {
-    console.log('update password');
     user.password = password;
-    console.log(user);
     return UserModel.create(user);
   });
 }
@@ -94,5 +100,10 @@ module.exports = {
   logout,
   createNewUser,
   sessionMiddleware,
-  requireLogin
+  requireLogin,
+  ERROR_BAD_REQUEST,
+  ERROR_BAD_USERNAME,
+  ERROR_BAD_PASSWORD,
+  ERROR_NO_USERSERNAME,
+  ERROR_WRONG_PASSWORD
 }

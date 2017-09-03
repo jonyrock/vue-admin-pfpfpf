@@ -24,3 +24,10 @@ export function createNewUser(user) {
     .catch(res => console.log(res));
 }
 
+
+export function login(login) {
+  return axios
+    .post(URI + '/login', login)
+    .then(res => res.data)
+    .catch(error => console.log(res));
+}
