@@ -5,7 +5,7 @@
         <div class="modal-dialog" :class="modalClass">
           <div class="modal-content">
             <!--Header-->
-            <div class="modal-header">
+            <div class="modal-header" v-show="showHeader">
               <slot name="header">
                 <div class="modal-title">
                   <slot name="title"></slot>
@@ -17,10 +17,10 @@
               <slot></slot>
             </div>
             <!--Footer-->
-            <div class="modal-footer">
+            <div class="modal-footer" v-show="showFooter">
               <slot name="footer">
-                <button type="button" :class="okClass" @click="ok">{{okText}}</button>
-                <button type="button" :class="cancelClass" @click="cancel">{{cancelText}}</button>
+                <button type="button" :class="okClass" @click="ok">{{ okText }}</button>
+                <button type="button" :class="cancelClass" @click="cancel">{{ cancelText }}</button>
               </slot>
             </div>
           </div>
@@ -66,32 +66,40 @@
       cancelClass: {
         type: String,
         default: 'btn btn-secondary'
+      },
+      showHeader: {
+        type: Boolean,
+        default: true
+      },
+      showFooter: {
+        type: Boolean,
+        default: true
       }
     },
-    data () {
+    data() {
       return {
         show: false,
         duration: 500
       }
     },
     computed: {
-      modalClass () {
+      modalClass() {
         return {
           'modal-lg': this.large,
           'modal-sm': this.small
         }
       }
     },
-    created () {
+    created() {
       if (this.show) {
         document.body.className += ' modal-open'
       }
     },
-    beforeDestroy () {
+    beforeDestroy() {
       document.body.className = document.body.className.replace(/\s?modal-open/, '')
     },
     watch: {
-      show (value) {
+      show(value) {
         if (value) {
           document.body.className += ' modal-open'
         } else {
@@ -102,21 +110,24 @@
       }
     },
     methods: {
-      ok () {
+      ok() {
         this.$emit('ok')
-        this.show = false
+        this.open();
       },
-      cancel () {
+      cancel() {
         this.$emit('cancel')
-        this.show = false
+        this.close();
       },
-      clickMask () {
-        if (!this.force) {
+      clickMask() {
+        if(!this.force) {
           this.cancel()
         }
       },
-      open () {
+      open() {
         this.show = true
+      },
+      close() {
+        this.show = false;
       }
     }
   }

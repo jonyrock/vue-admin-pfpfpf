@@ -32,7 +32,7 @@
             <button
               class="btn btn-primary btn-sm" 
               v-on:click="addNew()"
-              :disabled="createRow"
+              :disabled="createUserState"
             >
               ADD USER
             </button>
@@ -40,13 +40,25 @@
         </widget>
       </div>
     </div>
-
+    
+    <modal
+      ref="createUserModal"
+      :show.sync="createUserState"
+      :showHeader='false' :showFooter='false'
+    >
+      <div>
+        <signup v-on:success="onAddNewSuccess"></signup>
+      </div>
+      <div slot="title"></div>
+    </modal>
   </div>
 </template>
 
 <script>
-  import Widget from '../vuestic-components/vuestic-widget/VuesticWidget'
+  import Widget from 'components/vuestic-components/vuestic-widget/VuesticWidget'
+  import Modal from 'components/vuestic-components/vuestic-modal/VuesticModal'
   import UserRow from './UserRow';
+  import Signup from 'components/auth/Signup';
 
   import * as Users from '../../services/users';
 
@@ -55,7 +67,9 @@
   export default {
     components: {
       Widget,
-      UserRow
+      UserRow,
+      Modal,
+      Signup
     },
     name: 'Users',
     data() {
@@ -63,7 +77,7 @@
         users: undefined,
         editId: undefined,
         userEditCopy: undefined,
-        createRow: false
+        createUserState: false 
       }
     },
     methods: {
@@ -95,7 +109,11 @@
           });
       },
       addNew() {
-        
+        this.$refs.createUserModal.open();
+      },
+      onAddNewSuccess(user) {
+        this.$refs.createUserModal.close();
+        this.users.push(user);
       },
       userById(id) {
         var index = _.findIndex(this.users, u => u.id == id);

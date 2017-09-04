@@ -41,8 +41,8 @@ router.post('/createNewUser', function(req, res) {
   var user = req.body;
   AuthService
     .createNewUser(user)
-    .then(user => {
-      res.json({ result: true });
+    .then(result => {
+      res.json(result);
     })
 });
 

@@ -80,37 +80,17 @@
       post: function() {
         Auth
           .createNewUser(this.user)
-          .then(res => this.$emit('success'));
+          .then(res => {
+            var user = this.user;
+            user.id = res.id;
+            this.user = {};
+            this.$emit('success', user);
+          });
       }
     }
   }
 </script>
 
 <style lang="scss">
-  @import '../../sass/variables';
-  @import '../../../node_modules/bootstrap/scss/mixins/breakpoints';
-  @import '../../../node_modules/bootstrap/scss/variables';
 
-  .signup {
-    @include media-breakpoint-down(md) {
-      width: 100%;
-      padding-right: 2rem;
-      padding-left: 2rem;
-      .down-container {
-        .link {
-          margin-top: 2rem;
-        }
-      }
-    }
-
-    h2 {
-      text-align: center;
-    }
-    
-    width: 21.375rem;
-
-    .down-container {
-      margin-top: 2.6875rem;
-    }
-  }
 </style>
