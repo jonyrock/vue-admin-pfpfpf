@@ -8,7 +8,7 @@
               <thead>
                 <tr>
                   <td style="width:10%">id</td>
-                  <td style="width:25%">Name</td>
+                  <td style="width:25%">Full Name</td>
                   <td style="width:25%">Username</td>
                   <td style="width:25%">Email</td>
                   <td style="width:12%"></td>
@@ -52,9 +52,6 @@
 
   import _ from 'lodash';
 
-  const CREATE_ID = '-';
-
-
   export default {
     components: {
       Widget,
@@ -79,18 +76,11 @@
           });
       },
       onEdit(id) {
-        if(id === CREATE_ID) {
-          this.createRow = true;
-        }
         var { user } = this.userById(id);
         this.userEditCopy = _.clone(user);
         this.editId = id;
       },
       onUnedit(id) {
-        if(id === CREATE_ID) {
-          this.createRow = false;
-          this.users.pop();
-        }
         this.editId = undefined;
         this.userEditCopy = undefined;
       },
@@ -105,13 +95,7 @@
           });
       },
       addNew() {
-        this.users.push({
-          id: CREATE_ID,
-          name: 'Some User',
-          username: 'someuser',
-          email: 'some@email.com',
-        });
-        this.onEdit(CREATE_ID);
+        
       },
       userById(id) {
         var index = _.findIndex(this.users, u => u.id == id);

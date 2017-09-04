@@ -19,7 +19,7 @@
   </tr>
   <tr v-else>
     <td> {{ user.id }} </td>
-    <td> <input type="text" v-model="user.name" /> </td>
+    <td> <input type="text" v-model="user.fullname" /> </td>
     <td> <input type="text" v-model="user.username" /> </td>
     <td> <input type="text" v-model="user.email" /> </td>
     <td>

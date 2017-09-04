@@ -21,7 +21,7 @@
       <div class="offset-lg-8"></div>
       
       <div class="col nav-item d-flex align-items-center justify-content-center">
-        <a href="#/users" v-on:click="logout()" class="sidebar-link">
+        <a href="#/" v-on:click="logout()" class="sidebar-link">
           <i class="sidebar-menu-item-icon vuestic-icon vuestic-icon-logout"></i>Logout
         </a>
       </div>

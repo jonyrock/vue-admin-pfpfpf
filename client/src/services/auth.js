@@ -11,7 +11,8 @@ export function checkLogin() {
 export function logout() {
   return http
     .get('/logout')
-    .then(res => res.data.result);
+    .then(res => res.data.result)
+    .catch(logoutError => true);
 }
 
 export function emailExists(email) {
