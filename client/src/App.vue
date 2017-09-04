@@ -60,7 +60,6 @@
         this.screenName = 'login';
       },
       onLoginSuccess() {
-        console.log('good login');
         this.$store.dispatch('checkLogin');
       }
     }

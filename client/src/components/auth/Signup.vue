@@ -15,7 +15,7 @@
       <div class="input-group">
         <input
           type="text" id="username" name="username" required="required"
-          v-model="user.username" v-validate="'required|alpha_dash|username_unique'"
+          v-model="user.username" v-validate="'required|alpha_num|username_unique'"
         />
         <label class="control-label" for="username">Username</label>
         <i class="bar"></i>
@@ -78,7 +78,6 @@
     },
     methods: {
       post: function() {
-        console.log('create user.....');
         Auth
           .createNewUser(this.user)
           .then(res => this.$emit('success'));

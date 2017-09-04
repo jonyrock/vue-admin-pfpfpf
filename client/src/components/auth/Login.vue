@@ -5,7 +5,7 @@
       <div class="input-group">
         <input
           type="text" required="required" name="username"
-          v-model="login.username" v-validate="'required|alpha_spaces'"
+          v-model="login.username" v-validate="'required|alpha_num'"
         />
         <label class="control-label" for="login"> Username </label>
         <i class="bar"></i>
@@ -43,11 +43,11 @@
           .login(this.login)
           .then(res => {
             if(res.error !== undefined) {
-              if(this.error === 'ERROR_NO_USERSERNAME') {
+              if(res.error === 'ERROR_NO_USERSERNAME') {
                 this.errors.add('username', 'No such username');
               }
-              if(this.error === 'ERROR_WRONG_PASSWORD') {
-                this.errors.add('username', 'Wrong password');
+              if(res.error === 'ERROR_WRONG_PASSWORD') {
+                this.errors.add('password', 'Wrong password');
               }
             } else {
               this.$emit('success');

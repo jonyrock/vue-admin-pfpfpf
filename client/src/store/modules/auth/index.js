@@ -1,11 +1,5 @@
-import * as types from '../../mutation-types'
-
-import axios from 'axios';
-
-
-const ROOT_URI = 'http://localhost:3000';
-const URI = ROOT_URI + '/auth';
-
+import * as types from '../../mutation-types';
+import { checkLogin } from 'services/auth';
 
 
 const state = {
@@ -20,11 +14,8 @@ const mutations = {
 
 const actions = {
   checkLogin({ commit }) {
-    axios
-      .get(URI + '/checkLogin')
-      .then(({ data }) => {
-        commit(types.SET_AUTH, data.result);
-      });
+    checkLogin()
+      .then(res => commit(types.SET_AUTH, res));
   }
 }
 

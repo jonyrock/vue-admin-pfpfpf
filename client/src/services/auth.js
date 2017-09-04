@@ -1,33 +1,35 @@
-import axios from 'axios';
+import { getInstance } from 'services/http';
 
+const http = getInstance('auth');
 
-const ROOT_URI = 'http://localhost:3000';
-const URI = ROOT_URI + '/auth';
-
+export function checkLogin() {
+  return http
+    .get('/checkLogin')
+    .then(res => res.data.result);
+}
 
 export function emailExists(email) {
-  return axios
-    .post(URI + '/emailExists', { email: email })
+  return http
+    .post('/emailExists', { email: email })
     .then(res => res.data.result);
 }
 
 export function usernameExists(username) {
-  return axios
-    .post(URI + '/usernameExists', { username: username })
+  return http
+    .post('/usernameExists', { username: username })
     .then(res => res.data.result);
 }
 
 export function createNewUser(user) {
-  return axios
-    .post(URI + '/createNewUser', user)
+  return http
+    .post('/createNewUser', user)
     .then(res => res.data)
     .catch(res => console.log(res));
 }
 
-
 export function login(login) {
-  return axios
-    .post(URI + '/login', login)
+  return http
+    .post('/login', login)
     .then(res => res.data)
     .catch(error => console.log(res));
 }
