@@ -8,6 +8,12 @@ export function checkLogin() {
     .then(res => res.data.result);
 }
 
+export function logout() {
+  return http
+    .get('/logout')
+    .then(res => res.data.result);
+}
+
 export function emailExists(email) {
   return http
     .post('/emailExists', { email: email })

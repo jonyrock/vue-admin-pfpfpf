@@ -44,7 +44,7 @@ function login(req, res) {
   })
 }
 
-function logout(req, res) {
+function logout(req) {
   var loginId = req.session[TOKEN_SESSION_KEY];
   delete req.session[TOKEN_SESSION_KEY];
   req.user = undefined;

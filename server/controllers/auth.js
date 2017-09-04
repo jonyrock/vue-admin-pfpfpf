@@ -64,6 +64,11 @@ router.post('/usernameExists', function(req, res) {
     })
 });
 
+router.get('/logout', AuthService.requireLogin, function(req, res) {
+  AuthService.logout(req);
+  res.json({ ok: 'true' });
+});
+
 module.exports = {
   router
 }

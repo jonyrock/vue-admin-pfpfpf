@@ -1,5 +1,5 @@
 import * as types from '../../mutation-types';
-import { checkLogin } from 'services/auth';
+import { checkLogin, logout } from 'services/auth';
 
 
 const state = {
@@ -16,6 +16,10 @@ const actions = {
   checkLogin({ commit }) {
     checkLogin()
       .then(res => commit(types.SET_AUTH, res));
+  },
+  logout({ commit }) {
+    logout()
+      .then(res => commit(types.SET_AUTH, false));
   }
 }
 
