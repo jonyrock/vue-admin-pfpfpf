@@ -1,7 +1,7 @@
 <template>
   <tr v-if="!isEdit">
     <td>{{ user.id }}</td>
-    <td>{{ user.name }}</td>
+    <td>{{ user.fullname }}</td>
     <td>{{ user.username }}</td>
     <td>{{ user.email }}</td>
     <td>
