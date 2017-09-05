@@ -20,6 +20,7 @@
     "monk": "^6.0.3",
     "randomstring": "^1.1.5",
     "require": "^2.4.20",
-    "rsvp": "^4.0.1"
+    "rsvp": "^4.0.1",
+    "validator": "^8.1.0"
   }
 }

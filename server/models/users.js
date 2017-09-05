@@ -1,5 +1,6 @@
 const DB = require('../services/db');
 const _ = require('lodash');
+const validator = require('validator');
 
 
 const DB_NAME = 'usercollection';
@@ -71,6 +72,7 @@ function userById(id) {
 }
 
 function userByUsername(username) {
+  username = username.toLowerCase();
   return _np(function(db, c, resolve, reject) {
     c.findOne({ username: username }, (err, res) => {
       db.close();
@@ -83,11 +85,62 @@ function userByUsername(username) {
   });
 }
 
-function create(user) {
-  // TODO: validate fields
-  _normalizeUser(user);
+function userByEmail(email) {
+  email = email.toLowerCase();
+  return _np(function(db, c, resolve, reject) {
+    c.findOne({ email: email }, (err, res) => {
+      db.close();
+      if(err) {
+        reject(err);
+        return;
+      }
+      resolve(res);
+    });
+  });
+}
+
+function _validateUsername(username) {
+  return new Promise(function(resolve, reject) {
+      if(!validator.isAlphanumeric(username)) {
+        reject('ERROR_BAD_USERNAME');
+      }
+      resolve();
+    })
+    .then(() => userByUsername(username))
+    .then(res => {
+      if(res !== null) {
+        return Promise.reject('ERROR_USERNAME_EXISTS');
+      }
+      return true;
+    })
+}
+
+function _validateEmail(email) {
+  return new Promise(function(resolve, reject) {
+      if(!validator.isEmail(email)) {
+        reject('ERROR_BAD_EMAIL');
+      }
+      resolve();
+    })
+    .then(() => userByEmail(email))
+    .then(res => {
+      if(res !== null) {
+        return Promise.reject('ERROR_EMAIL_EXISTS');
+      }
+    })
+}
+
+function _getNextId() {
   return getList()
-    .then(list => _.maxBy(list, 'id').id + 1)
+    .then(list => _.maxBy(list, 'id').id + 1);
+}
+
+function create(user) {
+  _normalizeUser(user);
+  return Promise.resolve()
+    .then(() => _validateUsername(user.username))
+    .then(() => _validateEmail(user.email))
+    .then(() => _getNextId())
     .then(newId => _np(function(db, c, resolve, reject) {
       user.id = newId;
       c.insertOne(user, function(err, result) {
@@ -99,7 +152,6 @@ function create(user) {
         resolve(result);
       });
     }));
-
 }
 
 function remove(id) {
