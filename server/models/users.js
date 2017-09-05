@@ -194,6 +194,8 @@ module.exports = {
   create,
   update,
   remove,
+  userByUsername,
+  userByEmail,
   validateUsername,
   validateEmail
 }

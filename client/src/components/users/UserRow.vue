@@ -19,9 +19,39 @@
   </tr>
   <tr v-else>
     <td> {{ user.id }} </td>
-    <td> <input type="text" v-model="user.fullname" /> </td>
-    <td> <input type="text" v-model="user.username" /> </td>
-    <td> <input type="text" v-model="user.email" /> </td>
+    <td>
+      <div :class="{ 'form-group': true, 'has-error': errors.has('fullname') }">
+        <div class="input-group">
+          <input
+            type="text" id="fullname" name="fullname" required="required"
+            v-model="user.fullname" v-validate="'required|alpha_spaces'"
+          />
+          <i class="bar"></i>
+        </div>
+      </div>
+    </td>
+    <td> 
+      <div :class="{ 'form-group': true, 'has-error': errors.has('username') }">
+        <div class="input-group">
+          <input
+            type="text" id="username" name="username" required="required"
+            v-model="user.username" v-validate="'required|user.username:' + user.id"
+          />
+          <i class="bar"></i>
+        </div>
+      </div>
+    </td>
+    <td>
+      <div :class="{ 'form-group': true, 'has-error': errors.has('email') }">
+        <div class="input-group">
+          <input
+            type="text" id="email" name="email" required="required"
+            v-model="user.email" v-validate="'required|user.email:' + user.id"
+          />
+          <i class="bar"></i>
+        </div>
+      </div>
+    </td>
     <td>
       <button class="btn btn-primary btn-micro" v-on:click="saveEdit(user.id)">
         <div class="icon">
@@ -50,8 +80,6 @@
       }
     },
     mounted() {
-      console.log('hey mount');
-      console.log(this.errors);
     },
     methods: {
       remove(id) {
@@ -70,5 +98,8 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .form-group {
+    margin: 0
+  }
 </style>
