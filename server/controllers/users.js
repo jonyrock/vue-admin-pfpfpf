@@ -14,19 +14,24 @@ router.get('/', function(req, res) {
 router.get('/list', AuthService.requireLogin, function(req, res) {
   UserModel
     .getList()
-    .then(r => res.json(r));
+    .then(r => res.json(r))
+    .catch(error => res.json({ error }));
 });
 
 router.delete('/:id(\\d+)', AuthService.requireLogin, function(req, res) {
   UserModel
     .remove(+req.params.id)
-    .then(r => res.json(r));
+    .then(r => res.json(r))
+    .catch(error => res.json({ error }));
 });
 
 router.put('/:id(\\d+)', AuthService.requireLogin, function(req, res) {
   UserModel
     .update(+req.params.id, req.body)
-    .then(r => res.json(r));
+    .then(r => res.json({ ok: true }))
+    .catch(error => {
+      res.json({ error });
+    });
 });
 
 

@@ -23,7 +23,7 @@ router.post('/login', function(req, res) {
       res.json({ ok: true });
     })
     .catch(err => {
-      res.json({ error: ERROR_MESSAGES[err] })
+      res.json({ error: ERROR_MESSAGES[err] });
     })
 });
 
@@ -43,6 +43,9 @@ router.post('/createNewUser', function(req, res) {
     .createNewUser(user)
     .then(result => {
       res.json(result);
+    })
+    .catch(error => {
+      res.json({ error: error });
     })
 });
 

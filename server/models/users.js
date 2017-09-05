@@ -99,7 +99,7 @@ function userByEmail(email) {
   });
 }
 
-function _validateUsername(username) {
+function _validateUsername(username, id) {
   return new Promise(function(resolve, reject) {
       if(!validator.isAlphanumeric(username)) {
         reject('ERROR_BAD_USERNAME');
@@ -108,14 +108,14 @@ function _validateUsername(username) {
     })
     .then(() => userByUsername(username))
     .then(res => {
-      if(res !== null) {
+      if(res !== null && res.id !== id) {
         return Promise.reject('ERROR_USERNAME_EXISTS');
       }
       return true;
     })
 }
 
-function _validateEmail(email) {
+function _validateEmail(email, id) {
   return new Promise(function(resolve, reject) {
       if(!validator.isEmail(email)) {
         reject('ERROR_BAD_EMAIL');
@@ -124,7 +124,7 @@ function _validateEmail(email) {
     })
     .then(() => userByEmail(email))
     .then(res => {
-      if(res !== null) {
+      if(res !== null && res.id !== id) {
         return Promise.reject('ERROR_EMAIL_EXISTS');
       }
     })
@@ -138,8 +138,8 @@ function _getNextId() {
 function create(user) {
   _normalizeUser(user);
   return Promise.resolve()
-    .then(() => _validateUsername(user.username))
-    .then(() => _validateEmail(user.email))
+    .then(() => user.username !== undefined ? _validateUsername(user.username) : true)
+    .then(() => user.email !== undefined ? _validateEmail(user.email) : true)
     .then(() => _getNextId())
     .then(newId => _np(function(db, c, resolve, reject) {
       user.id = newId;
@@ -169,21 +169,23 @@ function remove(id) {
 function update(id, user) {
   _clearFields(UPDATE_FIELDS, user);
   _normalizeUser(user);
-  
-  // TODO: check fields to update
-  return _np(function(db, c, resolve, reject) {
-    c.updateOne(
-      { id: id }, 
-      { $set: user, $currentDate: { "lastModified": true } }, 
-      function(err, result) {
-        
-        db.close();
-        if(err) {
-          return reject(err);
-        }
-        resolve(result);
-      });
-  });
+
+  return Promise.resolve()
+    .then(() => _validateUsername(user.username, id))
+    .then(() => _validateEmail(user.email, id))
+    .then(() => _np(function(db, c, resolve, reject) {
+      c.updateOne(
+        { id: id }, 
+        { $set: user, $currentDate: { "lastModified": true } }, 
+        function(err, result) {
+          
+          db.close();
+          if(err) {
+            return reject(err);
+          }
+          resolve(result);
+        });
+    }))
 }
 
 function emailExists(email) {
