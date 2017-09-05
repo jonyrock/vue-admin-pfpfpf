@@ -15,7 +15,7 @@
       <div class="input-group">
         <input
           type="text" id="username" name="username" required="required"
-          v-model="user.username" v-validate="'required|alpha_num|username_unique'"
+          v-model="user.username" v-validate="'required|user.username'"
         />
         <label class="control-label" for="username">Username</label>
         <i class="bar"></i>
@@ -25,7 +25,7 @@
       <div class="input-group">
         <input
           type="text" id="email" name="email" required="required"
-          v-model="user.email" v-validate="'required|email|email_unique'"
+          v-model="user.email" v-validate="'required|user.email'"
         />
         <label class="control-label" for="email">Email</label>
         <i class="bar"></i>
@@ -55,20 +55,7 @@
 </template>
 
 <script>
-
-  import { Validator } from 'vee-validate';
-  import * as Auth from 'services/auth';
-
-  Validator.extend('username_unique', {
-    getMessage: field => 'The name is exists',
-    validate: value => Auth.usernameExists(value).then(res => !res)
-  });
   
-  Validator.extend('email_unique', {
-    getMessage: field => 'The name is exists',
-    validate: value => Auth.emailExists(value).then(res => !res)
-  });
-
   export default {
     name: 'signup',
     data: function() {

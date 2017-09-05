@@ -24,6 +24,7 @@
     "jquery": "^3.2.1",
     "kewler": "^1.0.8",
     "normalize.css": "7.0.0",
+    "validator": "^8.1.0",
     "vee-validate": "2.0.0-rc.7",
     "vue": "^2.3.0",
     "vue-bulma-expanding": "0.0.0",

@@ -1,29 +1,32 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import App from './App'
-import store from './store'
-import router from './router'
+import App from './App';
+import store from './store';
+import router from './router';
+import { installRules } from './validation';
 
-import VuesticPlugin from 'components/vuestic-components/vuestic-components-plugin'
+import VuesticPlugin from 'components/vuestic-components/vuestic-components-plugin';
 
-import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import VeeValidate from 'vee-validate'
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+import VeeValidate from 'vee-validate';
 
-import { sync } from 'vuex-router-sync'
+
+import { sync } from 'vuex-router-sync';
 
 
 Vue.use(VuesticPlugin);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 
+installRules(VeeValidate.Validator);
 sync(store, router);
 
 let mediaHandler = () => {
   if(window.matchMedia(store.getters.config.windowMatchSizeLg).matches) {
-    store.dispatch('toggleSidebar', true)
+    store.dispatch('toggleSidebar', true);
   } else {
-    store.dispatch('toggleSidebar', false)
+    store.dispatch('toggleSidebar', false);
   }
 }
 

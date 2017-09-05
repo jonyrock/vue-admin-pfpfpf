@@ -99,7 +99,7 @@ function userByEmail(email) {
   });
 }
 
-function _validateUsername(username, id) {
+function validateUsername(username, id) {
   return new Promise(function(resolve, reject) {
       if(!validator.isAlphanumeric(username)) {
         reject('ERROR_BAD_USERNAME');
@@ -115,7 +115,7 @@ function _validateUsername(username, id) {
     })
 }
 
-function _validateEmail(email, id) {
+function validateEmail(email, id) {
   return new Promise(function(resolve, reject) {
       if(!validator.isEmail(email)) {
         reject('ERROR_BAD_EMAIL');
@@ -138,8 +138,8 @@ function _getNextId() {
 function create(user) {
   _normalizeUser(user);
   return Promise.resolve()
-    .then(() => user.username !== undefined ? _validateUsername(user.username) : true)
-    .then(() => user.email !== undefined ? _validateEmail(user.email) : true)
+    .then(() => user.username !== undefined ? validateUsername(user.username) : true)
+    .then(() => user.email !== undefined ? validateEmail(user.email) : true)
     .then(() => _getNextId())
     .then(newId => _np(function(db, c, resolve, reject) {
       user.id = newId;
@@ -171,8 +171,8 @@ function update(id, user) {
   _normalizeUser(user);
 
   return Promise.resolve()
-    .then(() => _validateUsername(user.username, id))
-    .then(() => _validateEmail(user.email, id))
+    .then(() => validateUsername(user.username, id))
+    .then(() => validateEmail(user.email, id))
     .then(() => _np(function(db, c, resolve, reject) {
       c.updateOne(
         { id: id }, 
@@ -188,39 +188,12 @@ function update(id, user) {
     }))
 }
 
-function emailExists(email) {
-  email = email.toLowerCase();
-  return _np(function(db, c, resolve, reject) {
-    c.findOne({ email: email }, (err, res) => {
-      if(err) {
-        reject(err);
-        return;
-      }
-      resolve(res !== null);
-    });
-  })
-}
-
-function usernameExists(username) {
-  username = username.toLowerCase();
-  return _np(function(db, c, resolve, reject) {
-    c.findOne({ username: username }, (err, res) => {
-      if(err) {
-        reject(err);
-        return;
-      }
-      resolve(res !== null);
-    });
-  })
-}
-
 
 module.exports = {
   getList,
   create,
   update,
   remove,
-  emailExists,
-  usernameExists,
-  userByUsername
+  validateUsername,
+  validateEmail
 }

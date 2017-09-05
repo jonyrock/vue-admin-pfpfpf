@@ -49,6 +49,10 @@
         required: true
       }
     },
+    mounted() {
+      console.log('hey mount');
+      console.log(this.errors);
+    },
     methods: {
       remove(id) {
         this.$emit('remove', id)

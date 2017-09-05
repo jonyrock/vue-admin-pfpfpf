@@ -16,6 +16,13 @@ ERROR_MESSAGES[AuthService.ERROR_NO_USERSERNAME] = 'ERROR_NO_USERSERNAME';
 ERROR_MESSAGES[AuthService.ERROR_WRONG_PASSWORD] = 'ERROR_WRONG_PASSWORD';
 
 
+function _undefinedOrNum(param) {
+  if(param === undefined) {
+    return undefined;
+  }
+  return +param;
+}
+
 router.post('/login', function(req, res) {
   AuthService
     .login(req)
@@ -49,21 +56,27 @@ router.post('/createNewUser', function(req, res) {
     })
 });
 
-router.post('/emailExists', function(req, res) {
-  var email = req.body.email;
+router.post('/validateUsername/:id(\\d+)?', function(req, res) {
+  var username = req.body.username;
   UserModel
-    .emailExists(email)
-    .then(exists => {
-      res.json({ result: exists });
+    .validateUsername(username, _undefinedOrNum(req.params.id))
+    .then(() => {
+      res.json({ ok: true });
+    })
+    .catch(error => {
+      res.json({ error })
     })
 });
 
-router.post('/usernameExists', function(req, res) {
-  var username = req.body.username;
+router.post('/validateEmail/:id(\\d+)?', function(req, res) {
+  var email = req.body.email;
   UserModel
-    .usernameExists(username)
-    .then(exists => {
-      res.json({ result: exists });
+    .validateEmail(email, _undefinedOrNum(req.params.id))
+    .then(() => {
+      res.json({ ok: true });
+    })
+    .catch(error => {
+      res.json({ error })
     })
 });
 

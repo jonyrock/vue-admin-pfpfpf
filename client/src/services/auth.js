@@ -15,16 +15,35 @@ export function logout() {
     .catch(logoutError => true);
 }
 
-export function emailExists(email) {
+export function validateUsername(username, id) {
+  var url = '/validateUsername/';
+  if(id !== undefined) {
+    url += id;
+  }
   return http
-    .post('/emailExists', { email: email })
-    .then(res => res.data.result);
+    .post(url, { username: username })
+    .then(res => {
+      res = res.data;
+      if(res.error !== undefined) {
+        console.log('I see shit' + res.error);  
+        return Promise.reject(res.error);
+      }
+    });
 }
 
-export function usernameExists(username) {
+export function validateEmail(email, id) {
+  var url = '/validateEmail/';
+  if(id !== undefined) {
+    url += id;
+  }
   return http
-    .post('/usernameExists', { username: username })
-    .then(res => res.data.result);
+    .post(url, { email: email })
+    .then(res => {
+      res = res.data;
+      if(res.error !== undefined) {
+        return Promise.reject(res.error);
+      }
+    });
 }
 
 export function createNewUser(user) {

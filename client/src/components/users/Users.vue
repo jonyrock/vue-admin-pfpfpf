@@ -55,12 +55,13 @@
 </template>
 
 <script>
+  import UserRow from './UserRow';
+  
   import Widget from 'components/vuestic-components/vuestic-widget/VuesticWidget'
   import Modal from 'components/vuestic-components/vuestic-modal/VuesticModal'
-  import UserRow from './UserRow';
   import Signup from 'components/auth/Signup';
 
-  import * as Users from '../../services/users';
+  import * as Users from 'services/users';
 
   import _ from 'lodash';
 
