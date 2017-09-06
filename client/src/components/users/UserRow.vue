@@ -20,37 +20,22 @@
   <tr v-else>
     <td> {{ user.id }} </td>
     <td>
-      <div :class="{ 'form-group': true, 'has-error': errors.has('fullname') }">
-        <div class="input-group">
-          <input
-            type="text" id="fullname" name="fullname" required="required"
-            v-model="user.fullname" v-validate="'required|alpha_spaces'"
-          />
-          <i class="bar"></i>
-        </div>
-      </div>
+      <validate-input
+        name="fullname" v-model="user.fullname"
+        rule="required|alpha_spaces" label="Full Name"
+      />
     </td>
     <td> 
-      <div :class="{ 'form-group': true, 'has-error': errors.has('username') }">
-        <div class="input-group">
-          <input
-            type="text" id="username" name="username" required="required"
-            v-model="user.username" v-validate="'required|user.username:' + user.id"
-          />
-          <i class="bar"></i>
-        </div>
-      </div>
+      <validate-input
+        name="username" v-model="user.username"
+        :rule="'required|user.username:' + user.id" label="Username"
+      />
     </td>
     <td>
-      <div :class="{ 'form-group': true, 'has-error': errors.has('email') }">
-        <div class="input-group">
-          <input
-            type="text" id="email" name="email" required="required"
-            v-model="user.email" v-validate="'required|user.email:' + user.id"
-          />
-          <i class="bar"></i>
-        </div>
-      </div>
+      <validate-input
+        name="email" v-model="user.email"
+        :rule="'required|user.email:' + user.id" label="Email"
+      />
     </td>
     <td>
       <button class="btn btn-primary btn-micro" v-on:click="saveEdit(user.id)">
@@ -86,7 +71,15 @@
         this.$emit('remove', id)
       },
       saveEdit(id, user) {
-        this.$emit('saveEdit', id, user);
+        Promise.resolve()
+          .then(() => this.$validator.validateAll())
+          .then(result => {
+            if(!result) {
+              return Promise.reject();
+            }
+          })
+          .then(() => this.$emit('saveEdit', id, user))
+          .catch(() => {});
       },
       edit(id) {
         this.$emit('edit', id);

@@ -43,10 +43,10 @@
           .then(() => Auth.login(this.login))
           .then(() => this.$emit('success'))
           .catch(error => {
-            if(res.error === 'ERROR_NO_USERSERNAME') {
+            if(error === 'ERROR_NO_USERSERNAME') {
               this.errors.add('username', 'No such username');
             }
-            if(res.error === 'ERROR_WRONG_PASSWORD') {
+            if(error === 'ERROR_WRONG_PASSWORD') {
               this.errors.add('password', 'Wrong password');
             }
           })
