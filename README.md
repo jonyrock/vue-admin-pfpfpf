@@ -1,10 +1,13 @@
 A Vue.js / Express.js application
+Based on [vuestic-admin](http://github.com/epicmaxco/vuestic-admin)
+Data storage: [mongodb](http://www.mongodb.com/)
 
 # Fatures
 
-* Authentication
+* Cookies based Authentication
 * User managment
 * Forms Validation
+
 
 
 # Development mode
