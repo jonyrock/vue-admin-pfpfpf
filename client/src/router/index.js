@@ -15,11 +15,11 @@ export default new Router({
 function generateRoutesFromMenu(menu = [], routes = []) {
   for (let i = 0, l = menu.length; i < l; i++) {
     let item = menu[i]
-    if (item.path) {
-      routes.push(item)
+    if(item.path) {
+      routes.push(item);
     }
-    if (item.children) {
-      generateRoutesFromMenu(item.children, routes)
+    if(item.children) {
+      generateRoutesFromMenu(item.children, routes);
     }
   }
   return routes

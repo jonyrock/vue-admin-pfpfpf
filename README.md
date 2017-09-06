@@ -8,8 +8,6 @@ Data storage: [mongodb](http://www.mongodb.com/)
 * User managment
 * Forms Validation
 
-
-
 # Development mode
 
 Client process:

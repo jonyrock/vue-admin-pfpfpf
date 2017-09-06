@@ -4,6 +4,7 @@ import App from './App';
 import store from './store';
 import router from './router';
 import { installRules } from './validation';
+import { registerGlobalComponents } from './components';
 
 import VuesticPlugin from 'components/vuestic-components/vuestic-components-plugin';
 
@@ -20,6 +21,7 @@ Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 
 installRules(VeeValidate.Validator);
+registerGlobalComponents(Vue);
 sync(store, router);
 
 let mediaHandler = () => {
@@ -47,4 +49,5 @@ new Vue({
   store,
   template: '<App/>',
   components: { App }
-})
+});
+

@@ -1,53 +1,26 @@
 <template>
   <div class="signup">
     <h2>Create New Account</h2>
-    <div :class="{ 'form-group': true, 'has-error': errors.has('fullname') }">
-      <div class="input-group">
-        <input
-          type="text" id="fullname" name="fullname" required="required"
-          v-model="user.fullname" v-validate="'required|alpha_spaces'"
-        />
-        <label class="control-label" for="fullname">Full Name</label>
-        <i class="bar"></i>
-      </div>
-    </div>
-    <div :class="{ 'form-group': true, 'has-error': errors.has('username') }">
-      <div class="input-group">
-        <input
-          type="text" id="username" name="username" required="required"
-          v-model="user.username" v-validate="'required|user.username'"
-        />
-        <label class="control-label" for="username">Username</label>
-        <i class="bar"></i>
-      </div>
-    </div>
-    <div :class="{ 'form-group': true, 'has-error': errors.has('email') }">
-      <div class="input-group">
-        <input
-          type="text" id="email" name="email" required="required"
-          v-model="user.email" v-validate="'required|user.email'"
-        />
-        <label class="control-label" for="email">Email</label>
-        <i class="bar"></i>
-      </div>
-    </div>
-    <div :class="{ 'form-group': true, 'has-error': errors.has('password') }">
-      <div class="input-group">
-        <input 
-          type="password" id="password" name="password" required="required"
-          v-model="user.password" v-validate="'required|confirmed:password_repeat'"
-        />
-        <label class="control-label" for="password">Password</label>
-        <i class="bar"></i>
-      </div>
-    </div>
-    <div :class="{ 'form-group': true, 'has-error': errors.has('password_repeat') }">
-      <div class="input-group">
-        <input type="password" id="password_repeat" name="password_repeat" required="required" />
-        <label class="control-label" for="password_repeat">Password repeat</label>
-        <i class="bar"></i>
-      </div>
-    </div>
+    <validate-input
+      name="fullname" v-model="user.fullname"
+      rule="required|alpha_spaces" label="Full Name"
+    />
+    <validate-input
+      name="username" v-model="user.username"
+      rule="required|user.username" label="Username"
+    />
+    <validate-input
+      name="email" v-model="user.email" 
+      rule="required|user.email" label="Email"
+    />
+    <validate-input
+      name="password" v-model="user.password" 
+      rule="required|confirmed:password_repeat" label="Password"
+    />
+    <validate-input
+      name="password_repeat" v-model="password_repeat" 
+      rule="required|confirmed:password_repeat" label="Password Repeat"
+    />
     <div class="text-center">
       <button class="btn btn-primary" v-on:click="post"> Create </button>
     </div>
@@ -55,24 +28,39 @@
 </template>
 
 <script>
+
+  import * as Auth from 'services/auth'
   
   export default {
     name: 'signup',
     data: function() {
       return {
-        user: { }
+        user: {
+          fullname: '',
+          username: '',
+          email: '',
+          password: ''
+        },
+        password_repeat: ''
       }
     },
     methods: {
       post: function() {
-        Auth
-          .createNewUser(this.user)
+        Promise.resolve()
+          .then(() => this.$validator.validateAll())
+          .then(result => {
+            if(!result) {
+              return Promise.reject();
+            }
+          })
+          .then(() => Auth.createNewUser(this.user))
           .then(res => {
             var user = this.user;
             user.id = res.id;
             this.user = {};
             this.$emit('success', user);
-          });
+          })
+          .catch(() => {});
       }
     }
   }

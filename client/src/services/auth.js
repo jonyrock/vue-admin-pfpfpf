@@ -25,7 +25,6 @@ export function validateUsername(username, id) {
     .then(res => {
       res = res.data;
       if(res.error !== undefined) {
-        console.log('I see shit' + res.error);  
         return Promise.reject(res.error);
       }
     });
@@ -49,13 +48,21 @@ export function validateEmail(email, id) {
 export function createNewUser(user) {
   return http
     .post('/createNewUser', user)
-    .then(res => res.data)
-    .catch(res => console.log(res));
+    .then(res => {
+      res = res.data;
+      if(res.error !== undefined) {
+        return Promise.reject(res.error);
+      }
+    });
 }
 
 export function login(login) {
   return http
     .post('/login', login)
-    .then(res => res.data)
-    .catch(error => console.log(res));
+    .then(res => {
+      res = res.data;
+      if(res.error !== undefined) {
+        return Promise.reject(res.error);
+      }
+    });
 }
