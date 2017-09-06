@@ -2,7 +2,7 @@
   <div :class="{ 'form-group': true, 'has-error': errors.has(name) }">
     <div class="input-group">
       <input
-        type="text"
+        :type="type"
         ref="input"
         required="required"
         :name="name"
@@ -23,6 +23,10 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    type: {
+      type: String,
+      default: 'input'
     },
     value: {
       type: String,
