@@ -2,6 +2,8 @@
   <div :class="{ 'form-group': true, 'has-error': errors.has(name) }">
     <div class="input-group">
       <input
+        v-on:focus="focused = true"
+        v-on:blur="focused = false"
         :type="type"
         ref="input"
         required="required"
@@ -12,6 +14,9 @@
       />
       <label v-if="label" class="control-label" :for="name">{{ label }}</label>
       <i class="bar"></i>
+      <div class="errors" v-if="!focused && errors.has(name)">
+        {{ errors.first(name) }}
+      </div>
     </div>
   </div>
 </template>
@@ -40,10 +45,32 @@ export default {
       type: String
     }
   },
+  data() {
+    return {
+      focused: false
+    }
+  },
   methods: {
     updateValue(value) {
-      this.$emit('input', value)
+      this.$emit('input', value);
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .form-group {
+    position: relative;
+    .errors {
+      position: absolute;
+      background: white;
+      border: 1px solid gray;
+      padding: 5px;
+      color: red;
+      top: 0px;
+      left: 100%;
+      min-width: 200px;
+    }
+  }
+</style>
+

@@ -14,10 +14,12 @@
       rule="required|user.email" label="Email"
     />
     <validate-input
+      type="password"
       name="password" v-model="user.password" 
       rule="required|confirmed:password_repeat" label="Password"
     />
     <validate-input
+      type="password"
       name="password_repeat" v-model="password_repeat" 
       rule="required|confirmed:password_repeat" label="Password Repeat"
     />
