@@ -2,8 +2,7 @@
   <div :class="{ 'form-group': true, 'has-error': errors.has(name) }">
     <div class="input-group">
       <input
-        v-on:focus="focused = true"
-        v-on:blur="focused = false"
+        v-on:blur="waitForChange = true"
         :type="type"
         ref="input"
         required="required"
@@ -14,7 +13,7 @@
       />
       <label v-if="label" class="control-label" :for="name">{{ label }}</label>
       <i class="bar"></i>
-      <div class="errors" v-if="!focused && errors.has(name)">
+      <div class="errors" v-if="waitForChange && errors.has(name)">
         {{ errors.first(name) }}
       </div>
     </div>
@@ -47,11 +46,12 @@ export default {
   },
   data() {
     return {
-      focused: false
+      waitForChange: false
     }
   },
   methods: {
     updateValue(value) {
+      this.waitForChange = false;
       this.$emit('input', value);
     }
   }
