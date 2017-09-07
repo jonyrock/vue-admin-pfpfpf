@@ -28,13 +28,13 @@
     <td> 
       <validate-input
         name="username" v-model="user.username"
-        :rule="'required|user.username:' + user.id" label="Username"
+        :rule="'x-username:' + user.id" label="Username"
       />
     </td>
     <td>
       <validate-input
         name="email" v-model="user.email"
-        :rule="'required|user.email:' + user.id" label="Email"
+        :rule="'x-email:' + user.id" label="Email"
       />
     </td>
     <td>

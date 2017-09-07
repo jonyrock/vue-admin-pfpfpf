@@ -7,11 +7,11 @@
     />
     <validate-input
       name="username" v-model="user.username"
-      rule="required|user.username" label="Username"
+      rule="x-username" label="Username"
     />
     <validate-input
       name="email" v-model="user.email" 
-      rule="required|user.email" label="Email"
+      rule="x-email" label="Email"
     />
     <validate-input
       type="password"

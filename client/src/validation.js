@@ -1,16 +1,10 @@
 import * as Auth from 'services/auth';
 import validator from 'validator';
 
-var RULES = {
-  'user.username': {
+var CUSTOM_RULES = {
+  'username_unique': {
     getMessage: field => 'Username exists',
     validate: (value, args) => {
-      if(value.length === 0) {
-        return false;
-      }
-      if(!validator.isAlphanumeric(value)) {
-        return false;
-      }
       var id = undefined;
       if(args.length > 0) {
         id = +args[0];
@@ -21,15 +15,9 @@ var RULES = {
         .catch(() => false)
     }
   },
-  'user.email': {
+  'email_unique': {
     getMessage: field => 'Email exists',
     validate: (value, args) => {
-      if(value.length === 0) {
-        return false;
-      }
-      if(!validator.isEmail(value)) {
-        return false;
-      }
       var id = undefined;
       if(args.length > 0) {
         id = +args[0];
@@ -40,12 +28,37 @@ var RULES = {
         .catch(() => false)
     }
   }
+};
+
+const X_RULES = {
+  'x-username-form': 'required|alpha_num',
+  'x-username': 'x-username-form|username_unique',
+  'x-email': 'required|email|email_unique'
+};
+
+export function installCustomRules(validator) {
+  for(var ruleKey in CUSTOM_RULES) {
+    validator.extend(ruleKey, CUSTOM_RULES[ruleKey]);
+  }
 }
 
-export function installRules(validator) {
-  for(var ruleKey in RULES) {
-    validator.extend(ruleKey, RULES[ruleKey]);
+export function resolveComplexRule(rule) {
+  function findNext() {
+    for(var r in X_RULES) {
+      if(rule.indexOf(r) !== -1) {
+        return r;
+      }
+    }
+    return undefined;
   }
+  while(true) {
+    var r = findNext();
+    if(r === undefined) {
+      break;
+    }
+    rule = rule.replace(r, X_RULES[r]);
+  }
+  return rule;
 }
 
 

@@ -3,7 +3,7 @@
 import App from './App';
 import store from './store';
 import router from './router';
-import { installRules } from './validation';
+import { installCustomRules } from './validation';
 import { registerGlobalComponents } from './components';
 
 import VuesticPlugin from 'components/vuestic-components/vuestic-components-plugin';
@@ -20,7 +20,7 @@ Vue.use(VuesticPlugin);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 
-installRules(VeeValidate.Validator);
+installCustomRules(VeeValidate.Validator);
 registerGlobalComponents(Vue);
 sync(store, router);
 

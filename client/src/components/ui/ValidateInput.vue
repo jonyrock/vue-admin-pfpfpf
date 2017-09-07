@@ -7,7 +7,7 @@
         ref="input"
         required="required"
         :name="name"
-        v-validate="rule"
+        v-validate="fullRule"
         v-bind:value="value"
         v-on:input="updateValue($event.target.value)"
       />
@@ -21,41 +21,49 @@
 </template>
 
 <script>
-export default {
-  inject: ['$validator'],
-  props: {
-    name: {
-      type: String,
-      required: true
+  
+  import { resolveComplexRule } from '../../validation';
+
+  export default {
+    inject: ['$validator'],
+    props: {
+      name: {
+        type: String,
+        required: true
+      },
+      type: {
+        type: String,
+        default: 'input'
+      },
+      value: {
+        type: String,
+        required: true
+      },
+      rule: {
+        type: String,
+        default: 'required'
+      },
+      label: {
+        type: String
+      }
     },
-    type: {
-      type: String,
-      default: 'input'
+    data() {
+      return {
+        waitForChange: false
+      }
     },
-    value: {
-      type: String,
-      required: true
+    computed: {
+      fullRule() {
+        return resolveComplexRule(this.rule);
+      }
     },
-    rule: {
-      type: String,
-      default: 'required'
-    },
-    label: {
-      type: String
-    }
-  },
-  data() {
-    return {
-      waitForChange: false
-    }
-  },
-  methods: {
-    updateValue(value) {
-      this.waitForChange = false;
-      this.$emit('input', value);
+    methods: {
+      updateValue(value) {
+        this.waitForChange = false;
+        this.$emit('input', value);
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +78,7 @@ export default {
       top: 0px;
       left: 100%;
       min-width: 200px;
+      z-index: 1;
     }
   }
 </style>

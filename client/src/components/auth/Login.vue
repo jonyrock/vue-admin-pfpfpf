@@ -3,7 +3,7 @@
     <h2>Login</h2>
     <validate-input
       name="username" v-model="login.username"
-      rule="required|alpha_num" label="Username"
+      rule="x-username-form" label="Username"
     />
     <validate-input
       name="password" v-model="login.password"
