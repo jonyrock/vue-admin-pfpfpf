@@ -21,7 +21,7 @@
 
 <script>
   
-  import { resolveComplexRule } from '../../validation';
+  import { resolveComplexRule } from 'src/validation';
 
   export default {
     inject: ['$validator'],

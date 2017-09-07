@@ -22,19 +22,19 @@
     <td>
       <validate-input
         name="fullname" v-model="user.fullname"
-        rule="required|alpha_spaces" label="Full Name"
+        rule="required|alpha_spaces"
       />
     </td>
     <td> 
       <validate-input
         name="username" v-model="user.username"
-        :rule="'x-username:' + user.id" label="Username"
+        :rule="'x-username:' + user.id"
       />
     </td>
     <td>
       <validate-input
         name="email" v-model="user.email"
-        :rule="'x-email:' + user.id" label="Email"
+        :rule="'x-email:' + user.id"
       />
     </td>
     <td>
@@ -93,6 +93,9 @@
 
 <style lang="scss" scoped>
   .form-group {
-    margin: 0
+    margin: 0;
+    position: relative;
+    left: -2px;
+    top: -2px;
   }
 </style>

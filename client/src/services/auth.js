@@ -27,6 +27,7 @@ export function validateUsername(username, id) {
       if(res.error !== undefined) {
         return Promise.reject(res.error);
       }
+      return res;
     });
 }
 
@@ -42,6 +43,7 @@ export function validateEmail(email, id) {
       if(res.error !== undefined) {
         return Promise.reject(res.error);
       }
+      return res;
     });
 }
 
@@ -53,6 +55,7 @@ export function createNewUser(user) {
       if(res.error !== undefined) {
         return Promise.reject(res.error);
       }
+      return res;
     });
 }
 
@@ -64,5 +67,6 @@ export function login(login) {
       if(res.error !== undefined) {
         return Promise.reject(res.error);
       }
+      return res;
     });
 }

@@ -47,6 +47,12 @@
       }
     },
     methods: {
+      clearInput() {
+        for(var k in this.user) {
+          this.user[k] = '';
+        }
+        this.password_repeat = '';
+      },
       post: function() {
         Promise.resolve()
           .then(() => this.$validator.validateAll())
@@ -57,12 +63,19 @@
           })
           .then(() => Auth.createNewUser(this.user))
           .then(res => {
-            var user = this.user;
+            if(res === undefined) {
+              throw new Error('Expecting a result after user creation');
+            }
+            if(res.id === undefined) {
+              throw new Error('Expecting new user id');
+            }
+            // small js object instead of Vue's observer
+            var user = _.clone(this.user);
             user.id = res.id;
-            this.user = {};
+            this.clearInput();
             this.$emit('success', user);
           })
-          .catch(() => {});
+          .catch(error => console.log(error));
       }
     }
   }

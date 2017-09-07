@@ -113,8 +113,10 @@
         this.$refs.createUserModal.open();
       },
       onAddNewSuccess(user) {
-        this.$refs.createUserModal.close();
+        console.log('onAddNewSuccess')
+        console.log(user);
         this.users.push(user);
+        this.$refs.createUserModal.close();
       },
       userById(id) {
         var index = _.findIndex(this.users, u => u.id == id);
