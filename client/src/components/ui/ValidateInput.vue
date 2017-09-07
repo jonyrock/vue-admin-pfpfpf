@@ -4,7 +4,6 @@
       <input
         v-on:blur="waitForChange = true"
         :type="type"
-        ref="input"
         required="required"
         :name="name"
         v-validate="fullRule"
