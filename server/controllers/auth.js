@@ -34,7 +34,6 @@ router.post('/login', function(req, res) {
     })
 });
 
-
 router.get('/checkLogin', function(req, res) {
   // sessionMiddleware will add user if logged
   if(req.user) {

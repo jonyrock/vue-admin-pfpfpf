@@ -72,7 +72,11 @@ function createNewUser(user) {
   .then(password => {
     user.password = password;
     return UserModel.create(user);
-  });
+  })
+  .catch(err => {
+    console.log('got error in createNewUser');
+    console.log(err);
+  })
 }
 
 function sessionMiddleware(req, res, next) {
