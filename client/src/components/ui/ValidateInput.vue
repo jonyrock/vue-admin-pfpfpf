@@ -2,17 +2,18 @@
   <div :class="{ 'form-group': true, 'has-error': errors.has(name) }">
     <div class="input-group">
       <input
-        v-on:blur="waitForChange = true"
-        :type="type"
-        required="required"
         :name="name"
+        :type="type"
+        v-on:focus="firstFocus = true"
+        v-on:blur="firstFocus = false"
+        v-on:input="updateValue($event.target.value)"
         v-validate="fullRule"
         v-bind:value="value"
-        v-on:input="updateValue($event.target.value)"
+        required="required"
       />
       <label v-if="label" class="control-label" :for="name">{{ label }}</label>
       <i class="bar"></i>
-      <div class="errors" v-if="waitForChange && errors.has(name)">
+      <div class="errors" v-if="showError">
         {{ errors.first(name) }}
       </div>
     </div>
@@ -48,17 +49,21 @@
     },
     data() {
       return {
-        waitForChange: false
+        firstFocus: false
       }
     },
     computed: {
       fullRule() {
         return resolveComplexRule(this.rule);
+      },
+      showError() {
+        var res = !this.firstFocus && this.errors.has(this.name);
+        return !this.firstFocus && this.errors.has(this.name);
       }
     },
     methods: {
       updateValue(value) {
-        this.waitForChange = false;
+        this.firstFocus = false;
         this.$emit('input', value);
       }
     }
