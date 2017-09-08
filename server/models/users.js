@@ -153,7 +153,12 @@ function validateEmail(email, id) {
 
 function _getNextId() {
   return getList()
-    .then(list => _.maxBy(list, 'id').id + 1);
+    .then(list => {
+      if(list === undefined || list.length === 0) {
+        return 1;
+      }
+      return _.maxBy(list, 'id').id + 1
+    });
 }
 
 function create(user) {
