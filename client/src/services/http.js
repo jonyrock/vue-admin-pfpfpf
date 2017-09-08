@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const ROOT_URI = 'http://localhost:3000';
-
+const ROOT_URI = process.env.NODE_ENV === 'production' ? 
+                   '' : 'http://localhost:3000';
 
 export function getInstance(baseURL) {
   if(baseURL === undefined) {

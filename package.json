@@ -1,13 +1,12 @@
 {
   "name": "vue-admin-pfpfpf",
   "version": "1.0.0",
-  "description": "Hi",
+  "description": "Admin panel template: Vue.js / Express.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd server && npm run dev & pwd && cd ../client && npm run dev",
-    "start": "NODE_ENV=production node server/app.js",
-    "build": "cd client && npm run build"
+    "install": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build",
+    "start": "NODE_ENV=production node server/app.js"
   },
   "repository": {
     "type": "git",

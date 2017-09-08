@@ -8,6 +8,14 @@ Data storage: [mongodb](http://www.mongodb.com/)
 * User managment
 * Forms Validation
 
+# Build for production & run
+
+```
+npm install
+npm run build
+npm start
+```
+
 # Development mode
 
 Client process:
