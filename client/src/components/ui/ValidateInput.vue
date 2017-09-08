@@ -76,8 +76,8 @@
       color: red;
       top: 0px;
       left: 100%;
-      min-width: 200px;
-      z-index: 1;
+      min-width: 250px;
+      z-index: 3;
     }
   }
 </style>

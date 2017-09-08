@@ -22,7 +22,7 @@
     <td>
       <validate-input
         name="fullname" v-model="user.fullname"
-        rule="required|alpha_spaces"
+        rule="x-fullname-form"
       />
     </td>
     <td> 

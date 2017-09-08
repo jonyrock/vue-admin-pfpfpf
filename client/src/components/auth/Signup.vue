@@ -3,7 +3,7 @@
     <h2>Create New Account</h2>
     <validate-input
       name="fullname" v-model="user.fullname"
-      rule="required|alpha_spaces" label="Full Name"
+      rule="x-fullname-form" label="Full Name"
     />
     <validate-input
       name="username" v-model="user.username"

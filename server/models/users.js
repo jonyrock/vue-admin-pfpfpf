@@ -99,6 +99,27 @@ function userByEmail(email) {
   });
 }
 
+function validateFullname(value) {
+  return new Promise(function(resolve, reject) {
+      if(value === undefined) {
+        reject('ERROR_EMPTY_FULLNAME');
+        return;
+      }
+      while(value.indexOf(' ') !== -1) {
+        value = value.replace(' ', '');
+      }
+      if(value.length === 0) {
+        reject('ERROR_EMPTY_FULLNAME');
+        return;
+      }
+      if(!validator.isAlpha(value)) {
+        reject('ERROR_BAD_FULLNAME');
+        return;
+      }
+      resolve();
+    });
+}
+
 function validateUsername(username, id) {
   return new Promise(function(resolve, reject) {
       if(!validator.isAlphanumeric(username)) {
@@ -138,8 +159,9 @@ function _getNextId() {
 function create(user) {
   _normalizeUser(user);
   return Promise.resolve()
-    .then(() => user.username !== undefined ? validateUsername(user.username) : true)
-    .then(() => user.email !== undefined ? validateEmail(user.email) : true)
+    .then(() => validateFullname(user.fullname))
+    .then(() => validateUsername(user.username))
+    .then(() => validateEmail(user.email))
     .then(() => _getNextId())
     .then(newId => _np(function(db, c, resolve, reject) {
       user.id = newId;
@@ -171,8 +193,9 @@ function update(id, user) {
   _normalizeUser(user);
 
   return Promise.resolve()
-    .then(() => validateUsername(user.username, id))
-    .then(() => validateEmail(user.email, id))
+    .then(() => user.fullname !== undefined ? validateEmail(user.fullname) : true)
+    .then(() => user.username !== undefined ? validateUsername(user.username, id) : true)
+    .then(() => user.email !== undefined ?validateEmail(user.email, id) : true)
     .then(() => _np(function(db, c, resolve, reject) {
       c.updateOne(
         { id: id }, 

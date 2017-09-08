@@ -113,8 +113,6 @@
         this.$refs.createUserModal.open();
       },
       onAddNewSuccess(user) {
-        console.log('onAddNewSuccess')
-        console.log(user);
         this.users.push(user);
         this.$refs.createUserModal.close();
       },

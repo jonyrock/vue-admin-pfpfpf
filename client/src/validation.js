@@ -31,6 +31,7 @@ var CUSTOM_RULES = {
 };
 
 const X_RULES = {
+  'x-fullname-form': 'required|alpha_spaces',
   'x-username-form': 'required|alpha_num',
   'x-username': 'x-username-form|username_unique',
   'x-email': 'required|email|email_unique'
