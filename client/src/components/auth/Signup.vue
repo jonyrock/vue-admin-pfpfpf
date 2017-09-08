@@ -32,6 +32,7 @@
 <script>
 
   import * as Auth from 'services/auth'
+  import _ from 'lodash';
   
   export default {
     name: 'signup',
