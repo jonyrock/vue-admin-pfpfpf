@@ -2,6 +2,8 @@ A Vue.js / Express.js application
 Based on [vuestic-admin](http://github.com/epicmaxco/vuestic-admin)
 Data storage: [mongodb](http://www.mongodb.com/)
 
+Demo: [va.corpglory.com](http://va.corpglory.com/)
+
 # Fatures
 
 * Cookies based Authentication
